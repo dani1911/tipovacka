@@ -11,15 +11,29 @@ class PredictionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateGame(int $ht_goals, int $at_goals, int $id)
+    public function updateGame($prediction, int $ht_goals, int $at_goals)
     {
-        $game_pred = GamePrediction::where('game_id', '=', $id)->firstOrFail();
-
         $point = 0;
-        if ($game_pred->home_team_goals === $ht_goals && $game_pred->away_team_goals === $at_goals)
-            $point = 1;
 
-        $game_pred->points = $point;
-        $game_pred->update();
+        if ($ht_goals === $prediction->home_team_goals && $at_goals === $prediction->away_team_goals)
+        {
+            $point = 1;
+        }
+
+        $prediction->points = $point;
+        $prediction->save();
+    }
+
+    public function updateStage($prediction, int $stage, int $team)
+    {
+        $point = 0;
+
+        if ($prediction->stage === $stage && $prediction->team_id === $team)
+        {
+            $point = 1;
+        }
+
+        $prediction->points = $point;
+        $prediction->save();
     }
 }

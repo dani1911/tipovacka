@@ -61,12 +61,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(StagePrediction::class);
     }
-
-    public function predictions()
-    {
-        $gmp = $this->gamePredictions()->sum('points');
-        $sp = $this->stagePredictions()->sum('points');
-
-        return $gmp + $sp;
-    }
 }

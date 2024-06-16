@@ -17,6 +17,6 @@ class HomeController extends Controller
 
         $games = Game::with('homeTeam')->with('awayTeam')->withSum('gamePredictions', 'points')->whereDate('game_date', $today)->get();
         
-        return view('games', ['games' => $games, 'title' => 'Dnešné zápasy']);
+        return view('games', ['games' => $games, 'title' => 'Dnešné zápasy', 'date_format' => 'H:i']);
     }
 }

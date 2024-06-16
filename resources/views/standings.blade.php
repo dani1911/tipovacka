@@ -6,25 +6,29 @@
 
 <h2>Tabuľka</h2>
 
-<table>
-    <tr>
-        <th>Por.</th>
-        <th>Meno</th>
-        <th>Body</th>
-    </tr>
+<div class="box size-xs">
+    <table>
+        <tr>
+            <th>Por.</th>
+            <th>Meno</th>
+            <th>Body</th>
+        </tr>
+    
+    @foreach ($users as $user)
 
-@foreach ($users as $user)
     <tr class="standing position{{$loop->index + 1}}">
-        <td>{{ $loop->index + 1 }}.</td>
+        <td class="rank text-center">{{ $loop->index + 1 }}.</td>
         <td>
             <a href="{{ route('user', $user->id) }}">
                 {{ $user->name }}
             </a>
         </td>
-        <td>{{ $user->points }}</td>
+        <td class="text-center">{{ $user->points }}</td>
     </tr>
-@endforeach
 
-</table>
+    @endforeach
+    
+    </table>
+</div>
 
 @endsection

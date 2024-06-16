@@ -15,7 +15,7 @@ class GameController extends Controller
     {
         $games = Game::with('homeTeam')->with('awayTeam')->withSum('gamePredictions', 'points')->orderBy('game_date')->get();
 
-        return view('games', ['games' => $games, 'title' => 'Všetky zápasy']);
+        return view('games', ['games' => $games, 'title' => 'Všetky zápasy', 'date_format' => 'd. m. Y H:i']);
     }
 
     /**
@@ -39,7 +39,9 @@ class GameController extends Controller
      */
     public function show(int $id)
     {
-        $game = Game::with('homeTeam')->with('awayTeam')->with('gamePredictions', 'gamePredictions.user')->find($id);
+        $game = Game::with('homeTeam')->with('awayTeam')
+                    ->with('gamePredictions.user')
+                    ->find($id);
 
         return view('game', ['game' => $game]);
     }
@@ -55,10 +57,15 @@ class GameController extends Controller
         $game = Game::find($id);
         $game->home_team_goals = $ht_goals;
         $game->away_team_goals = $at_goals;
-        $game->update();
+        $game->save();
 
-        $prediction = new PredictionController();
-        $prediction->updateGame($ht_goals, $at_goals, $id);
+        $predictions = GamePrediction::where('game_id', '=', $id)->get();
+
+        foreach ($predictions as $prediction)
+        {   
+            $pred = new PredictionController($prediction->id);
+            $pred->updateGame($prediction, $ht_goals, $at_goals);
+        }
 
         return redirect()->back();
     }

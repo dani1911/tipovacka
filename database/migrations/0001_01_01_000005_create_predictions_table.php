@@ -23,8 +23,9 @@ return new class extends Migration
         Schema::create('stage_predictions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('team_id')->constrained();
-            $table->string('stage');
+            $table->foreignId('team_id')->constrained()->nullable();
+            $table->integer('stage');
+            $table->string('stage_name')->nullable();
             $table->integer('points')->nullable();
         });
     }
