@@ -7,8 +7,15 @@
         <title>EURO 2024 tipovačka @yield('title')</title>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
+        <link rel="stylesheet" href="{{ asset('/css/fontawesome/css/fontawesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/fontawesome/css/solid.min.css') }}">
 
-        @vite(['resources/css/app.css', 'resources/css/fontawesome/css/fontawesome.min.css', 'resources/css/fontawesome/css/solid.min.css', 'resources/js/app.js'])
+        {{-- prod --}}
+        {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-DcE_dwo3.css') }}"> --}}
+        {{-- <script src="{{ asset('build/assets/app-C1-XIpUa.js') }}"></script> --}}
+
+        {{-- dev --}}
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         
     </head>
     <body>

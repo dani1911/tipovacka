@@ -41,7 +41,7 @@ class GameController extends Controller
     {
         $game = Game::with('homeTeam')->with('awayTeam')
                     ->with('gamePredictions.user')
-                    ->find($id);
+                    ->findOrFail($id);
 
         return view('game', ['game' => $game]);
     }

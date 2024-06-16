@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user_predictions = User::with('stagePredictions.team')->find($id);
+        $user_predictions = User::with('stagePredictions.team')->findOrFail($id);
 
         $user = DB::select('select id, name, sum(points) as points
                         from (
