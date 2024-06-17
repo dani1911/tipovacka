@@ -40,10 +40,7 @@ class StageController extends Controller
         {
             if (null !== $value)
             {
-                $winner = new StageWinner();
-                $winner->stage = $key;
-                $winner->team_id = $value;
-                $winner->save();
+                StageWinner::updateOrInsert(['stage' => $key], ['stage' => $key, 'team_id' => $value]);
     
                 $predictions = StagePrediction::where('stage', '=', $key)->get();
     
