@@ -56,6 +56,8 @@
                 @if (Auth::check() && Auth::user()->id === 1)
 
                 <a href="{{ route('stage.edit') }}" class=""><i class="fa-solid fa-pen-to-square"></i> <span class="desktop">Upraviť víťazov</span></a>
+                <a href="{{ route('game.add') }}" class=""><i class="fa-solid fa-plus fa-2xs"></i> <i class="fa-solid fa-futbol"></i> <span class="desktop">Pridať zápas</span></a>
+                <a href="{{ route('prediction.add') }}" class=""><i class="fa-solid fa-plus fa-2xs"></i> <i class="fa-solid fa-circle-question"></i> <span class="desktop">Pridať tip</span></a>
 
                 @endif
             </nav>

@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StageController;
+use App\Http\Controllers\GamePredictionController;
 
 Route::controller(AuthController::class)->group(function()
 {
@@ -29,6 +30,10 @@ Route::middleware(['auth'])->group(function()
 {
     Route::get('/stage/update', [StageController::class, 'edit'])->name('stage.edit');
     Route::post('stage/save', [StageController::class, 'store'])->name('stage.store');
+    Route::get('/games/add', [GameController::class, 'create'])->name('game.add');
+    Route::post('/game/create', [GameController::class, 'store'])->name('game.create');
     Route::post('/game/{id}', [GameController::class, 'update'])->name('game.update');
+    Route::get('/predictions/add', [GamePredictionController::class, 'create'])->name('prediction.add');
+    Route::post('/prediction/create', [GamePredictionController::class, 'store'])->name('prediction.create');
 });
 

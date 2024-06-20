@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Team;
 use App\Models\GamePrediction;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,9 @@ class GameController extends Controller
      */
     public function create()
     {
-        //
+        $teams = Team::get();
+
+        return view('_partials.game.add', ['teams' => $teams]);
     }
 
     /**
@@ -31,7 +34,15 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $new_game = new Game();
+
+        $new_game->game_date = $request->input('game_date');
+        $new_game->home_team_id = $request->input('home_team');
+        $new_game->away_team_id = $request->input('away_team');
+
+        $new_game->save();
+
+        return redirect()->back()->with('status', 'Game ' . $new_game->id . ' added!');
     }
 
     /**
