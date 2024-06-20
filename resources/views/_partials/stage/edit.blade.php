@@ -4,7 +4,7 @@
 
 @section('content')
 
-<form action="{{ route('stage.store') }}" method="post" class="box flex flex-column flex-align-i-center">
+<form action="{{ route('stage.store') }}" method="post" class="box flex flex-column flex-align-i-center size-xs">
     <h2>Aktualizovať víťazov</h2>
     @csrf
     <fieldset class="flex flex-align-stretch flex-no-gap">

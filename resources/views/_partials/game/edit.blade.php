@@ -1,4 +1,4 @@
-<form action="{{ route('game.update', ['id' => $game->id]) }}" method="post" class="box">
+<form action="{{ route('game.update', ['id' => $game->id]) }}" method="post" class="box size-xs">
     @csrf
     <input class="input-field number" type="number" name="home_team_goals">
     <input class="input-field number" type="number" name="away_team_goals">

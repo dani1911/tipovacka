@@ -343,6 +343,10 @@ label {
     padding: .5rem;
 }
 
+.field-medium {
+    max-width: 165px;
+}
+
 .number {
     max-width: 80px;
 }

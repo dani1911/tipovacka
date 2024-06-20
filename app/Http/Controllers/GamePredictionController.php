@@ -15,7 +15,7 @@ class GamePredictionController extends Controller
     public function create()
     {
         $users = User::get();
-        $games = Game::with('homeTeam')->with('awayTeam')->get();
+        $games = Game::with('homeTeam')->with('awayTeam')->orderByDesc('id')->get();
 
         return view('_partials.predictions.add', ['users' => $users, 'games' => $games]);
     }

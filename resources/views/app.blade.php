@@ -11,8 +11,8 @@
         <link rel="stylesheet" href="{{ asset('/css/fontawesome/css/solid.min.css') }}">
 
         {{-- prod --}}
-        {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-DcE_dwo3.css') }}"> --}}
-        {{-- <script src="{{ asset('build/assets/app-C1-XIpUa.js') }}"></script> --}}
+        {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-DmulCdXZ.css') }}">
+        <script src="{{ asset('build/assets/app-C1-XIpUa.js') }}"></script> --}}
 
         {{-- dev --}}
         @vite(['resources/css/app.css', 'resources/js/app.js'])
