@@ -49,5 +49,104 @@ class DatabaseSeeder extends Seeder
                 'abbreviation' => 'FIN'
             ],
         );
+
+        DB::table('teams')->insert(
+            [
+                'name' => 'Albánsko',
+                'abbreviation' => 'alb',
+            ],
+            [
+                'name' => 'Anglicko',
+                'abbreviation' => 'eng',
+            ],
+            [
+                'name' => 'Belgicko',
+                'abbreviation' => 'bel',
+            ],
+            [
+                'name' => 'Česko',
+                'abbreviation' => 'cze',
+            ],
+            [
+                'name' => 'Chorvátsko',
+                'abbreviation' => 'hrv',
+            ],
+            [
+                'name' => 'Dánsko',
+                'abbreviation' => 'dnk',
+            ],
+            [
+                'name' => 'Francúzsko',
+                'abbreviation' => 'fra',
+            ],
+            [
+                'name' => 'Gruzínsko',
+                'abbreviation' => 'geo',
+            ],
+            [
+                'name' => 'Holandsko',
+                'abbreviation' => 'nld',
+            ],
+            [
+                'name' => 'Maďarsko',
+                'abbreviation' => 'hun',
+            ],
+            [
+                'name' => 'Nemecko',
+                'abbreviation' => 'deu',
+            ],
+            [
+                'name' => 'Poľsko',
+                'abbreviation' => 'pol',
+            ],
+            [
+                'name' => 'Portugalsko',
+                'abbreviation' => 'prt',
+            ],
+            [
+                'name' => 'Rakúsko',
+                'abbreviation' => 'aut',
+            ],
+            [
+                'name' => 'Rumunsko',
+                'abbreviation' => 'rou',
+            ],
+            [
+                'name' => 'Škótsko',
+                'abbreviation' => 'sco',
+            ],
+            [
+                'name' => 'Slovensko',
+                'abbreviation' => 'svk',
+            ],
+            [
+                'name' => 'Slovinsko',
+                'abbreviation' => 'svn',
+            ],
+            [
+                'name' => 'Španielsko',
+                'abbreviation' => 'esp',
+            ],
+            [
+                'name' => 'Srbsko',
+                'abbreviation' => 'srb',
+            ],
+            [
+                'name' => 'Švajčiarsko',
+                'abbreviation' => 'che',
+            ],
+            [
+                'name' => 'Taliansko',
+                'abbreviation' => 'ita',
+            ],
+            [
+                'name' => 'Turecko',
+                'abbreviation' => 'tur',
+            ],
+            [
+                'name' => 'Ukrajina',
+                'abbreviation' => 'ukr',
+            ],
+        );
     }
 }
