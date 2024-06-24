@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stage_winners', function (Blueprint $table) {
+        Schema::create('stages', function (Blueprint $table) {
             $table->id();
-            $table->string('stage');
-            $table->foreignId('team_id')->constrained();
+            $table->string('name');
+            $table->string('abbreviation');
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stage_winners');
+        Schema::dropIfExists('teams');
     }
 };

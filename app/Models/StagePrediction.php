@@ -41,4 +41,12 @@ class StagePrediction extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    /**
+     * Get the stage that the prediction belongs to.
+     */
+    public function stage(): BelongsTo
+    {
+        return $this->belongsTo(Stage::class);
+    }
 }

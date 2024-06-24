@@ -25,10 +25,18 @@ class StageWinner extends Model
     public $timestamps = false;
 
     /**
-     * Get the user that the prediction belongs to.
+     * Get the user that the stage winner belongs to.
      */
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    /**
+     * Get the stage that the stage winner belongs to.
+     */
+    public function stage(): BelongsTo
+    {
+        return $this->belongsTo(Stage::class);
     }
 }

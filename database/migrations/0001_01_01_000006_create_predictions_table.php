@@ -24,8 +24,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('team_id')->constrained()->nullable();
-            $table->integer('stage');
-            $table->string('stage_name')->nullable();
+            $table->foreignId('stage_id')->constrained()->nullable();
             $table->integer('points')->nullable();
         });
     }

@@ -28,7 +28,7 @@ class PredictionController extends Controller
     {
         $point = 0;
 
-        if ($prediction->stage === $stage && $prediction->team_id === $team)
+        if ($prediction->stage_id === $stage && $prediction->team_id === $team)
         {
             $point = 1;
         }

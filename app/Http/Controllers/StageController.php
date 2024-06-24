@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\StageWinner;
 use App\Models\StagePrediction;
-use App\Models\User;
+use App\Models\Stage;
 use App\Models\Team;
+use App\Models\User;
 
 class StageController extends Controller
 {
     public function index()
     {
+        $stages = Stage::get();
         $users = User::with('stagePredictions.team')->orderBy('name')->get();
         $winners = StageWinner::with('team')->get();
 
-        return view('stage', ['users' => $users, 'stage_winners' => $winners]);
+        return view('stage', ['stages' => $stages, 'users' => $users, 'stage_winners' => $winners]);
     }
 
     public function edit()
@@ -40,9 +42,9 @@ class StageController extends Controller
         {
             if (null !== $value)
             {
-                StageWinner::updateOrInsert(['stage' => $key], ['stage' => $key, 'team_id' => $value]);
+                StageWinner::updateOrInsert(['stage_id' => $key], ['stage_id' => $key, 'team_id' => $value]);
     
-                $predictions = StagePrediction::where('stage', '=', $key)->get();
+                $predictions = StagePrediction::where('stage_id', '=', $key)->get();
     
                 foreach ($predictions as $prediction)
                 {

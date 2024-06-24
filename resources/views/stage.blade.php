@@ -12,13 +12,13 @@
             <table>
                 <tr>
                     <th class="table-col-fixed table-col-border">meno</th>
-                    <th>Skupina A</th>
-                    <th>Skupina B</th>
-                    <th>Skupina C</th>
-                    <th>Skupina D</th>
-                    <th>Skupina E</th>
-                    <th>Skupina F</th>
-                    <th>EURO</th>
+
+                    @foreach ($stages as $stage)
+    
+                    <th>{{ $stage->name }}</th>
+
+                    @endforeach
+
                 </tr>
         
             @foreach ($users as $user)
@@ -28,41 +28,55 @@
                     <a href="{{ route('user', $user->id) }}">{{ $user->name }}</a>
                 </td>
         
-                @php
-                    $stage = 1;
-                @endphp
-                @foreach ($user->stagePredictions as $prediction)
-                @php
-                    $isWinner = false;
-                    if ($prediction->points === 1) $isWinner = true;
-                @endphp
-        
-                <td>
-        
-                    @if ($stage == $prediction->stage)
+
+                @foreach ($stages as $stage)
                 
-                    <span @class(['winner' => $isWinner])>{{ $prediction->team->name ?? '' }}</span>
-        
-                    @endif
-        
-                </td>
+                    <td>
+
+                    @foreach ($user->stagePredictions as $prediction)
+                    @php
+                        $isWinner = false;
+                        if ($prediction->points === 1) $isWinner = true;
+                    @endphp
+            
+            
+                        @if ($stage->id === $prediction->stage_id)
                     
-                @php
-                    $stage++;
-                @endphp
+                        <span @class(['winner' => $isWinner])>{{ $prediction->team->name ?? '' }}</span>
+            
+                        @endif
+            
+                    @endforeach
+                        
+                    </td>
+
                 @endforeach
                 
             </tr>
                 
             @endforeach
+
             @if ($stage_winners->isNotEmpty())
                 
             <tr>
                 <td class="table-col-fixed table-col-border"><span class="bold">Víťazi</span></td>
     
-                @foreach ($stage_winners as $winner)
+
+                @foreach ($stages as $stage)
+
+                <td>
                     
-                <td><span class="bold">{{ $winner->team->name }}</span></td>
+                    @foreach ($stage_winners as $winner)
+
+                    @if ($stage->id === $winner->stage_id)
+
+                    <span class="bold">{{ $winner->team->name ?? '' }}</span>
+
+                    @endif
+
+                    @endforeach
+
+                </td>
     
                 @endforeach
     
