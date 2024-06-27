@@ -18,9 +18,9 @@
         </tr>
     
     @foreach ($user_predictions->stagePredictions as $stage)
-    
+
         <tr>
-            <td class="stage">{{ $stage->stage_name }}</td>
+            <td class="stage">{{ $stage->stage->name }}</td>
             <td>{{ $stage->team->name }}</td>
             <td>
                 @if ($stage->points === 1)
@@ -48,13 +48,15 @@
         </tr>
     
     @foreach ($user_predictions->gamePredictions as $prediction)
-    
+
         @php
             $isSuccess = $isFail = false;
             if ($prediction->points === 1) $isSuccess = true;
             if ($prediction->points === 0) $isFail = true;
         @endphp
-    
+
+        @if ($prediction->game->stage_id < 7)
+            
         <tr>
             <td>
                 <a href="{{ route('game', $prediction->game->id) }}">
@@ -75,6 +77,8 @@
                 <span @class(['badge', 'success' => $isSuccess, 'fail' => $isFail])>{{ $prediction->score }}</span>
             </td>
         </tr>
+
+        @endif
     
     @endforeach
     

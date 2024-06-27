@@ -52,10 +52,12 @@
                 <a href="{{ route('standings') }}" class=""><i class="fa-solid fa-list"></i> <span class="desktop">Tabuľka</span></a>
                 <a href="{{ route('games') }}" class=""><i class="fa-solid fa-futbol"></i> <span class="desktop">Zápasy</span></a>
                 <a href="{{ route('stage') }}" class=""><i class="fa-solid fa-star"></i> <span class="desktop">Víťazi</span></a>
+                <a href="{{ route('playoffs') }}" class=""><i class="fa-solid fa-sitemap"></i> <span class="desktop">Playoffs</span></a>
 
                 @if (Auth::check() && Auth::user()->id === 1)
 
                 <a href="{{ route('stage.edit') }}" class=""><i class="fa-solid fa-pen-to-square"></i> <span class="desktop">Upraviť víťazov</span></a>
+                <a href="{{ route('user.add') }}" class=""><i class="fa-solid fa-plus fa-2xs"></i> <i class="fa-solid fa-user"></i> <span class="desktop">Pridať tipéra</span></a>
                 <a href="{{ route('game.add') }}" class=""><i class="fa-solid fa-plus fa-2xs"></i> <i class="fa-solid fa-futbol"></i> <span class="desktop">Pridať zápas</span></a>
                 <a href="{{ route('prediction.add') }}" class=""><i class="fa-solid fa-plus fa-2xs"></i> <i class="fa-solid fa-circle-question"></i> <span class="desktop">Pridať tip</span></a>
 

@@ -13,6 +13,7 @@ Route::controller(AuthController::class)->group(function()
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/games', [GameController::class, 'index'])->name('games');
     Route::get('/game/{id}', [GameController::class, 'show'])->name('game');
+    Route::get('/playoffs', [GameController::class, 'playoffs'])->name('playoffs');
     Route::get('/standings', [UserController::class, 'index'])->name('standings');
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user');
     Route::get('/stage', [StageController::class, 'index'])->name('stage');
@@ -28,12 +29,15 @@ Route::controller(AuthController::class)->group(function()
 
 Route::middleware(['auth'])->group(function()
 {
+    Route::get('/users/add', [UserController::class, 'create'])->name('user.add');
+    Route::post('/user/create', [UserController::class, 'store'])->name('user.create');
     Route::get('/stage/update', [StageController::class, 'edit'])->name('stage.edit');
-    Route::post('stage/save', [StageController::class, 'store'])->name('stage.store');
+    Route::post('/stage/save', [StageController::class, 'store'])->name('stage.store');
     Route::get('/games/add', [GameController::class, 'create'])->name('game.add');
     Route::post('/game/create', [GameController::class, 'store'])->name('game.create');
     Route::post('/game/{id}', [GameController::class, 'update'])->name('game.update');
     Route::get('/predictions/add', [GamePredictionController::class, 'create'])->name('prediction.add');
     Route::post('/prediction/create', [GamePredictionController::class, 'store'])->name('prediction.create');
+    Route::post('/predictions/ajaxGetTeams', [GamePredictionController::class, 'ajaxGetTeams']);
 });
 

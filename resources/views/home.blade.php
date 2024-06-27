@@ -7,6 +7,9 @@
 <h2>{{ $title }}</h2>
 
 <div class="box size-xs">
+
+    @if($games->isNotEmpty())
+
     <table class="games-table">
         <tr>
             <th>Zápas</th>
@@ -46,6 +49,15 @@
         @endforeach
     
     </table>
+
+    @else
+
+    <div class="text-center">
+        Dnes nie sú na programe žiadne zápasy
+    </div>
+
+    @endif
+
 </div>
 <h2>Top 3 tipéri</h2>
 <div class="box size-xs">

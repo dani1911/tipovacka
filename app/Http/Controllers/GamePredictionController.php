@@ -31,9 +31,32 @@ class GamePredictionController extends Controller
         $new_prediction->game_id = $request->input('game_id');
         $new_prediction->home_team_goals = $request->input('home_team_goals');
         $new_prediction->away_team_goals = $request->input('away_team_goals');
+        $new_prediction->advancing_team_id = $request->input('advancing_team');
 
         $new_prediction->save();
 
         return redirect()->back()->with('status', 'Prediction ' . $new_prediction->id . ' added!');
+    }
+
+    public function ajaxGetTeams(Request $request)
+    {
+        $game = Game::with('homeTeam')->with('awayTeam')->findOrFail($request->id);
+        
+        $data = [
+            'home_team' => [
+                'id' => $game->home_team_id,
+                'name' => $game->homeTeam->name,
+            ],
+            'away_team' => [
+                'id' => $game->away_team_id,
+                'name' => $game->awayTeam->name,
+            ],
+            'stage' => $game->stage_id,
+        ];
+
+        return response()->json([
+            "status" => true,
+            "game" => $data,
+        ]);
     }
 }

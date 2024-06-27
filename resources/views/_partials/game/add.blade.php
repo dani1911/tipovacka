@@ -8,6 +8,17 @@
     <h2>Nový zápas</h2>
     @csrf
     <fieldset class="flex flex-justify-center flex-no-gap">
+        <label class="flex flex-justify-center flex-align-i-center" for="stage_id"><i class="fa-solid fa-network-wired"></i></label>
+        <select class="input-field text" name="stage_id">
+            <option value="">-- Vybrať --</option>
+            @foreach ($stages as $stage)
+
+            <option value="{{ $stage->id }}">{{ $stage->name }}</option>
+
+            @endforeach
+        </select>
+    </fieldset>
+    <fieldset class="flex flex-justify-center flex-no-gap">
         <label class="flex flex-justify-center flex-align-i-center" for="game_date"><i class="fa-solid fa-calendar-days"></i></label>
         <input class="input-field text" type="datetime-local" name="game_date">
     </fieldset>

@@ -13,8 +13,8 @@ class StageController extends Controller
 {
     public function index()
     {
-        $stages = Stage::get();
-        $users = User::with('stagePredictions.team')->orderBy('name')->get();
+        $stages = Stage::whereIn('id', [1,2,3,4,5,6,10])->get();
+        $users = User::has('stagePredictions.team')->orderBy('name')->get();
         $winners = StageWinner::with('team')->get();
 
         return view('stage', ['stages' => $stages, 'users' => $users, 'stage_winners' => $winners]);

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -60,5 +61,13 @@ class User extends Authenticatable
     public function stagePredictions(): HasMany
     {
         return $this->hasMany(StagePrediction::class);
+    }
+
+    /**
+     * Get the advancing team of a game.
+     */
+    public function advancingTeam(): HasOne
+    {
+        return $this->hasOne(Team::class, 'id', 'advancing_team_id');
     }
 }

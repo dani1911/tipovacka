@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreignId('away_team_id');
             $table->integer('home_team_goals')->nullable();
             $table->integer('away_team_goals')->nullable();
+            $table->foreignId('advancing_team_id')->nullable();
             $table->dateTime('game_date');
+            $table->foreignId('stage_id');
         });
     }
 

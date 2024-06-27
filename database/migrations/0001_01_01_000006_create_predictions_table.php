@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('game_id')->constrained();
             $table->integer('home_team_goals')->nullable();
             $table->integer('away_team_goals')->nullable();
+            $table->foreignId('advancing_team_id')->nullable();
             $table->integer('points')->nullable();
         });
 

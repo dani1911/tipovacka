@@ -36,17 +36,43 @@
         <tr>
             <th>Meno</th>
             <th class="text-center">Tip</th>
+
+            @if ($game->stage_id > 6)
+                
+            <th class="text-center"></th>
+
+            @endif
         </tr>
     
     @foreach ($game->gamePredictions->sortBy('user.name', SORT_NATURAL|SORT_FLAG_CASE) as $prediction)
     @php
         $isSuccess = $isFail = false;
-        if ($prediction->points === 1) $isSuccess = true;
+        if ($game->home_team_goals === $prediction->home_team_goals && $game->away_team_goals === $prediction->away_team_goals) $isSuccess = true;
     @endphp
 
     <tr>
         <td><a href="{{ route('user', $prediction->user->id) }}">{{ $prediction->user->name }}</a></td>
         <td class="text-center"><span @class(['badge', 'success' => $isSuccess])>{{ $prediction->score }}</span></td>
+
+        @if ($game->stage_id > 6)
+
+        <td>
+            <div class="flex flex-justify-center flex-align-i-center flex-gap-5">
+
+                <img src="/img/teams/{{ $prediction->advancingTeam->abbreviation }}.png" class="team-flag" alt="{{ $prediction->advancingTeam->abbreviation }}">
+            
+                @if (null !== $game->advancing_team_id && $prediction->advancing_team_id === $game->advancing_team_id)
+                <i class="fa-solid fa-circle-check"></i>
+                @elseif (null !== $game->advancing_team_id)
+                <i class="fa-solid fa-circle-xmark"></i>
+                @endif
+
+            </div>
+
+        </td>
+
+        @endif
+
     </tr>
     
     @endforeach

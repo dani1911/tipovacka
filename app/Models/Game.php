@@ -51,11 +51,6 @@ class Game extends Model
         return $this->hasMany(GamePrediction::class);
     }
 
-    public function corectPredictions()
-    {
-        return $this->gamePredictions()->selectRaw('game_id, sum(points) as points');
-    }
-
     /**
      * Get the stage winner predictions of a user.
      */
@@ -72,5 +67,13 @@ class Game extends Model
     public function getFinalResultAttribute()
     {
         return (isset($this->home_team_goals) && isset($this->away_team_goals)) ? $this->home_team_goals . ':' . $this->away_team_goals : '';
+    }
+
+    /**
+     * Get the stage that the game belongs to.
+     */
+    public function stage(): BelongsTo
+    {
+        return $this->belongsTo(Stage::class);
     }
 }

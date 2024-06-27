@@ -85,6 +85,7 @@ fieldset {
     --color-light: #143cdb;
     --color-divider: #515c8c;
     --color-white: #fff;
+    --color-accent: #f9bf4b;
 }    
 
 html {
@@ -147,6 +148,10 @@ footer {
     max-width: 100%;
 }
 
+.inner-padding {
+    padding: .3rem .75rem;
+}
+
 .box:not(:last-child) {
     margin-bottom: 1rem;
 }
@@ -200,6 +205,30 @@ footer {
 
 .flex-align-i-center {
     align-items: center;
+}
+
+.flex-align-i-stretch {
+    align-items: stretch;
+}
+
+.flex-gap-1 {
+    gap: .25rem;
+}
+
+.flex-gap-2 {
+    gap: .5rem;
+}
+
+.flex-gap-3 {
+    gap: .5rem;
+}
+
+.flex-gap-4 {
+    gap: .75rem;
+}
+
+.flex-gap-5 {
+    gap: 1rem;
 }
 
 .fa-circle-check {
@@ -273,7 +302,7 @@ table {
     border-collapse: collapse;
 }
 
-table tr:not(:last-child) {
+.games-table tr:not(:last-child) {
     border-bottom: 1px solid var(--color-divider);
 }
 
@@ -285,10 +314,15 @@ table td {
 .date {
     font-size: 70%;
     font-weight: 700;
+    color: var(--color-accent);
 }
 
 .game {
     gap: .5rem;
+}
+
+.gamebox {
+    width: max-content;
 }
 
 .game-details {
@@ -319,6 +353,10 @@ table td {
     min-width: 100px;
 }
 
+.score-goals {
+    padding-inline: 1rem;
+}
+
 .bold {
     font-weight: 700;
 }
@@ -329,6 +367,18 @@ table td {
     background-color: var(--color-white);
     color: var(--color-dark);
     border-radius: 3px;
+}
+
+.fa-sitemap {
+    transform: rotate(90deg);
+}
+
+/* .advancing_team {
+    display: none;
+} */
+
+.eliminated {
+    opacity: .5;
 }
 
 label {
@@ -403,6 +453,13 @@ footer {
 
     .vertical-scroll-table .inner-scroll {
         margin-left: 90px;
+        overflow-x: scroll;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .playoffs-tree-container {
+        width: 100%;
         overflow-x: scroll;
     }
 }

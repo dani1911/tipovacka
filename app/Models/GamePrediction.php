@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
 class GamePrediction extends Model
@@ -38,6 +39,14 @@ class GamePrediction extends Model
     public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
+    }
+
+    /**
+     * Get the advancing team of a game.
+     */
+    public function advancingTeam(): HasOne
+    {
+        return $this->hasOne(Team::class, 'id', 'advancing_team_id');
     }
 
     public function getScoreAttribute()

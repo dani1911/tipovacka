@@ -45,6 +45,21 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'id' => 7,
+                'name' => 'Osemfinále',
+                'abbreviation' => 'L16'
+            ],
+            [
+                'id' => 8,
+                'name' => 'Štvrťfinále',
+                'abbreviation' => 'QF'
+            ],
+            [
+                'id' => 9,
+                'name' => 'Semifinále',
+                'abbreviation' => 'SF'
+            ],
+            [
+                'id' => 10,
                 'name' => 'EURO',
                 'abbreviation' => 'FIN'
             ],
@@ -146,6 +161,10 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Ukrajina',
                 'abbreviation' => 'ukr',
+            ],
+            [
+                'name' => 'Tím',
+                'abbreviation' => 'pla',
             ],
         );
     }

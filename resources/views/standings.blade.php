@@ -13,7 +13,7 @@
             <th>Meno</th>
             <th>Body</th>
         </tr>
-    
+
     @foreach ($users as $user)
 
     <tr class="standing position{{$loop->index + 1}}">

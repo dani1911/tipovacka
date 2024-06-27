@@ -18,7 +18,7 @@
             @endforeach
         </select>
         <label class="flex flex-justify-center flex-align-i-center" for="game_id"><i class="fa-solid fa-trophy"></i></label>
-        <select class="input-field text field-medium" name="game_id">
+        <select class="input-field text field-medium game_id" name="game_id">
             <option value="">-- Vybrať --</option>
             @foreach ($games as $game)
     
@@ -33,6 +33,10 @@
         <label class="flex flex-justify-center flex-align-i-center" for="away_team_goals"><i class="fa-solid fa-minus"></i></label>
         <input class="input-field number" type="number" name="away_team_goals">
     </fieldset>
+
+    <fieldset class="flex flex-justify-center flex-no-gap advancing_team">
+    </fieldset>
+
     <fieldset class="flex flex-justify-center flex-no-gap">
         <input class="btn btn-primary" type="submit" value="Pridať">
     </fieldset>
