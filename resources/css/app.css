@@ -78,6 +78,10 @@ fieldset {
     border: none;
 }
 
+ul {
+    padding: 0;
+}
+
 :root {
     --color-dark: #000d40;
     --color-middle-dark: #172665;
@@ -179,6 +183,12 @@ footer {
 
 .success {
     background: var(--color-white);
+    color: var(--color-dark);
+    font-weight: 600;
+}
+
+.selected {
+    background: var(--color-accent);
     color: var(--color-dark);
     font-weight: 600;
 }
@@ -373,9 +383,14 @@ table td {
     transform: rotate(90deg);
 }
 
-/* .advancing_team {
-    display: none;
-} */
+.stages {
+    margin-bottom: .5rem;
+    font-size: 75%;
+}
+
+.stages > li {
+    cursor: pointer;
+}
 
 .eliminated {
     opacity: .5;

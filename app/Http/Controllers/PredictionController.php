@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GamePrediction;
-use App\Models\StagePrediction;
-use Illuminate\Http\Request;
-
 class PredictionController extends Controller
 {
     /**

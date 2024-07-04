@@ -24,6 +24,9 @@ Route::controller(AuthController::class)->group(function()
     // Route::middleware(['guest'])->group(function()
     // {
     // });
+    Route::post('/home/update', [HomeController::class, 'ajaxChangeStandingsContent']);
+    Route::post('/user/{id}/update', [UserController::class, 'ajaxChangePageContent']);
+    Route::post('/standings/update', [UserController::class, 'ajaxChangeStandingsContent']);
     Route::post('/logout', 'logout')->name('logout');
 });
 

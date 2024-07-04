@@ -39,7 +39,7 @@
                                 <span @class(['flex flex-align-c-center', 'eliminated' => $isHomeEliminated])>{{ $game->home_team_goals }}</span>
                             </td>
                             <td rowspan="2" class="prediction text-center">
-                                <span @class(['badge', 'success' => $isSuccess])>{{ ($game->home_team_goals) ? $game->points : '' }}</span>
+                                <span @class(['badge', 'success' => $isSuccess])>{{ (isset($game->home_team_goals)) ? $game->points : '' }}</span>
                             </td>
                         </tr>
                         <tr>

@@ -35,7 +35,7 @@ class StageController extends Controller
             4 => $request->input('group_d'),
             5 => $request->input('group_e'),
             6 => $request->input('group_f'),
-            7 => $request->input('final'),
+            10 => $request->input('final'),
         ];
 
         foreach ($winners as $key => $value)

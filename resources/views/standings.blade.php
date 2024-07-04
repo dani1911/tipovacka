@@ -6,29 +6,12 @@
 
 <h2>Tabuľka</h2>
 
-<div class="box size-xs">
-    <table>
-        <tr>
-            <th>Por.</th>
-            <th>Meno</th>
-            <th>Body</th>
-        </tr>
+@include('_partials.stage.nav')
 
-    @foreach ($users as $user)
+<div class="box size-xs refresh-data">
 
-    <tr class="standing position{{$loop->index + 1}}">
-        <td class="rank text-center">{{ $loop->index + 1 }}.</td>
-        <td>
-            <a href="{{ route('user', $user->id) }}">
-                {{ $user->name }}
-            </a>
-        </td>
-        <td class="text-center">{{ $user->points }}</td>
-    </tr>
-
-    @endforeach
+    @include('_partials.standings.table')
     
-    </table>
 </div>
 
 @endsection

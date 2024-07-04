@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\GamePrediction;
 
 class UserController extends Controller
 {
@@ -15,12 +14,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = DB::select('select id, name, sum(points) as points
-                        from (
-                        select users.id, users.name, sum(points) as points from users left join game_predictions on users.id=game_predictions.user_id left join games on game_predictions.game_id=games.id where games.stage_id < 7 group by users.id, users.name
-                        union all
-                        select users.id, users.name, sum(points) as points from users left join stage_predictions on users.id=stage_predictions.user_id group by users.id, users.name) u
-                        group by id, name order by points desc');
+        $stage = '> 6';
+
+        $users = DB::select('SELECT id, name, sum(points) AS points
+                        FROM (
+                        SELECT users.id, users.name, sum(points) AS points FROM users LEFT JOIN game_predictions ON users.id=game_predictions.user_id LEFT JOIN games ON game_predictions.game_id=games.id WHERE games.stage_id ' . $stage . ' GROUP BY users.id, users.name
+                        UNION ALL
+                        SELECT users.id, users.name, sum(points) AS points FROM users LEFT JOIN stage_predictions ON users.id=stage_predictions.user_id WHERE stage_predictions.stage_id ' . $stage . ' GROUP BY users.id, users.name) u
+                        WHERE points IS NOT NULL GROUP BY id, name ORDER BY points DESC');
 
         return view('standings', ['users' => $users]);
     }
@@ -30,16 +31,25 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user_predictions = User::with('stagePredictions.team')->findOrFail($id);
+        $stage = ' IN (7,8,9)';
+
+        $stage_predictions = User::with(['stagePredictions' => function($query) use ($stage) { $query->whereRaw('stage_id' . $stage); }])->findOrFail($id);
+        $game_predictions = DB::select('SELECT u.id, u.name, gp.game_id AS gpgid, gp.home_team_goals AS gphg, gp.away_team_goals AS gpag, g.home_team_goals AS ghg, g.away_team_goals AS gag, gp.game_id as gpgi, g.game_date, htm.abbreviation AS htabb, htm.name AS htname, atm.abbreviation AS atabb, atm.name AS atname
+                            FROM game_predictions gp
+                            LEFT JOIN users u ON u.id = gp.user_id
+                            LEFT JOIN games g ON gp.game_id = g.id
+                            LEFT JOIN teams htm ON g.home_team_id = htm.id
+                            LEFT JOIN teams atm ON g.away_team_id = atm.id
+                            WHERE u.id = ' . $id . ' AND g.stage_id ' . $stage . ' ORDER BY g.game_date ASC');
 
         $user = DB::select('select id, name, sum(points) as points
                         from (
-                        select users.id, users.name, sum(points) as points from users left join game_predictions on users.id=game_predictions.user_id left join games on game_predictions.game_id=games.id where games.stage_id < 7 group by users.id, users.name
+                        select users.id, users.name, sum(points) as points from users left join game_predictions on users.id=game_predictions.user_id left join games on game_predictions.game_id=games.id where games.stage_id ' . $stage . ' group by users.id, users.name
                         union all
-                        select users.id, users.name, sum(points) as points from users left join stage_predictions on users.id=stage_predictions.user_id group by users.id, users.name) u
+                        select users.id, users.name, sum(points) as points from users left join stage_predictions on users.id=stage_predictions.user_id WHERE stage_predictions.stage_id ' . $stage . ' group by users.id, users.name) u
                         where id = ' . $id . ' group by id, name');
 
-        return view('user', ['user' => $user[0], 'user_predictions' => $user_predictions, 'date_format' => 'd. m. Y H:i']);
+        return view('user', ['user' => $user[0], 'stage_predictions' => $stage_predictions, 'game_predictions' => $game_predictions, 'date_format' => 'd. m. Y H:i']);
     }
 
     /**
@@ -66,5 +76,50 @@ class UserController extends Controller
         $new_user->save();
 
         return redirect()->back()->with('status', 'User ' . $new_user->id . ' added!');
+    }
+
+    public function ajaxChangeStandingsContent(Request $request)
+    {
+        ($request->stage === 'round1') ? $stage = '< 7' : $stage = '> 6';
+
+        $users = DB::select('SELECT id, name, sum(points) AS points
+                FROM (
+                SELECT users.id, users.name, sum(points) AS points FROM users LEFT JOIN game_predictions ON users.id=game_predictions.user_id LEFT JOIN games ON game_predictions.game_id=games.id WHERE games.stage_id ' . $stage . ' GROUP BY users.id, users.name
+                UNION ALL
+                SELECT users.id, users.name, sum(points) AS points FROM users LEFT JOIN stage_predictions ON users.id=stage_predictions.user_id WHERE stage_predictions.stage_id ' . $stage . ' GROUP BY users.id, users.name) u
+                WHERE points IS NOT NULL GROUP BY id, name ORDER BY points DESC');
+
+        $html = view('_partials.standings.table', compact('users'))->render();
+
+        return response()->json(['status' => true, 'html' => $html]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function ajaxChangePageContent(Request $request)
+    {
+        $id = $request->id;
+        ($request->stage === 'round1') ? $stage = ' IN (1,2,3,4,5,6,10)' : $stage = ' IN (7,8,9)';
+
+        $game_predictions = DB::select('SELECT u.id, u.name, gp.game_id AS gpgid, gp.home_team_goals AS gphg, gp.away_team_goals AS gpag, g.home_team_goals AS ghg, g.away_team_goals AS gag, gp.game_id as gpgi, g.game_date, htm.abbreviation AS htabb, htm.name AS htname, atm.abbreviation AS atabb, atm.name AS atname
+                            FROM game_predictions gp
+                            LEFT JOIN users u ON u.id = gp.user_id
+                            LEFT JOIN games g ON gp.game_id = g.id
+                            LEFT JOIN teams htm ON g.home_team_id = htm.id
+                            LEFT JOIN teams atm ON g.away_team_id = atm.id
+                            WHERE u.id = ' . $id . ' AND g.stage_id ' . $stage . 'ORDER BY g.game_date ASC');
+        $stage_predictions = User::with(['stagePredictions' => function($query) use ($stage) { $query->whereRaw('stage_id' . $stage); } ])->findOrFail($id);
+
+        $user = DB::select('select id, name, sum(points) as points
+                        from (
+                        select users.id, users.name, sum(points) as points from users left join game_predictions on users.id=game_predictions.user_id left join games on game_predictions.game_id=games.id where games.stage_id ' . $stage . ' group by users.id, users.name
+                        union all
+                        select users.id, users.name, sum(points) as points from users left join stage_predictions on users.id=stage_predictions.user_id WHERE stage_predictions.stage_id ' . $stage . ' group by users.id, users.name) u
+                        where id = ' . $id . ' group by id, name');
+
+        $html = view('_partials.user.stats', ['user' => $user[0], 'stage_predictions' => $stage_predictions, 'game_predictions' => $game_predictions, 'date_format' => 'd. m. Y H:i'])->render();
+
+        return response()->json(['status' => true, 'html' => $html]);
     }
 }
