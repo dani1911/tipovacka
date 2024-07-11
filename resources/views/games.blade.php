@@ -12,7 +12,7 @@
             <th>Zápas</th>
             <th class="prediction">Správne tipy</th>
         </tr>
-    
+
         @foreach($games as $game)
         @php
             $isSuccess = false;
@@ -36,7 +36,7 @@
                 </a>
             </td>
             <td class="prediction text-center">
-                <span @class(['badge', 'success' => $isSuccess])>{{ ($game->home_team_goals) ? $game->points : '' }}</span>
+                <span @class(['badge', 'success' => $isSuccess])>{{ (isset($game->home_team_goals)) ? $game->points : '' }}</span>
             </td>
         </tr>
     

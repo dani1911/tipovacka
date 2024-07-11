@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         $today = Carbon::today();
 
-        $games = Game::with('homeTeam')->with('awayTeam')->withSum('gamePredictions', 'points')->whereDate('game_date', $today)->orderBY('game_date')->get();
+        $games = Game::with('homeTeam')->with('awayTeam')->withCount(['gamePredictions as points' => function($query) { $query->where('points', '>', 0); }])->whereDate('game_date', $today)->orderBY('game_date')->get();
 
         $stage = '> 6';
 

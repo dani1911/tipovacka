@@ -19,7 +19,7 @@
         @foreach($games as $game)
         @php
             $isScore = $isSuccess = false;
-            if ($game->game_predictions_sum_points > 0) $isSuccess = true;
+            if ($game->points > 0) $isSuccess = true;
         @endphp
     
         <tr>
@@ -39,7 +39,7 @@
                 </a>
             </td>
             <td class="prediction text-center">
-                <span @class(['badge', 'success' => $isSuccess])>{{ $game->game_predictions_sum_points }}</span>
+                <span @class(['badge', 'success' => $isSuccess])>{{ (isset($game->home_team_goals)) ? $game->points : '' }}</span>
                 <a href="{{ route('game', $game->id) }}">
                     <i></i>
                 </a>
