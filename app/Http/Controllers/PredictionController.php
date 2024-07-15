@@ -18,7 +18,7 @@ class PredictionController extends Controller
 
         if (null !== $advancing_team_id && $prediction->advancing_team_id == $advancing_team_id)
         {
-            ($stage === 10) ? $point_adv = 4 : $point_adv = 1;
+            ($stage === 11) ? $point_adv = 4 : $point_adv = 1;
         }
 
         $prediction->points = $point_game + $point_adv;

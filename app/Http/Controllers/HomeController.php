@@ -18,7 +18,7 @@ class HomeController extends Controller
 
         $games = Game::with('homeTeam')->with('awayTeam')->withCount(['gamePredictions as points' => function($query) { $query->where('points', '>', 0); }])->whereDate('game_date', $today)->orderBY('game_date')->get();
 
-        $stage = '> 6';
+        $stage = ' IN (7,8,9,11)';
 
         $users = DB::select('SELECT id, name, sum(points) AS points
                         FROM (
@@ -32,7 +32,7 @@ class HomeController extends Controller
 
     public function ajaxChangeStandingsContent(Request $request)
     {
-        ($request->stage === 'round1') ? $stage = '< 7' : $stage = '> 6';
+        ($request->stage === 'round1') ? $stage = ' IN (1,2,3,4,5,6,10)' : $stage = ' IN (7,8,9,11)';
 
         $users = DB::select('SELECT id, name, sum(points) AS points
                 FROM (

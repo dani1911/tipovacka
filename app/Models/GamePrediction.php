@@ -51,6 +51,8 @@ class GamePrediction extends Model
 
     public function getScoreAttribute()
     {
-        return $this->home_team_goals . ':' . $this->away_team_goals;
+        (isset($this->home_team_goals) && isset($this->away_team_goals)) ? $score = $this->home_team_goals . ':' . $this->away_team_goals :  $score = '';
+
+        return $score;
     }
 }

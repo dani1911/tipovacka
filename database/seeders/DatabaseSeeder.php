@@ -63,6 +63,11 @@ class DatabaseSeeder extends Seeder
                 'name' => 'EURO',
                 'abbreviation' => 'FIN'
             ],
+            [
+                'id' => 11,
+                'name' => 'EURO',
+                'abbreviation' => 'FIN2'
+            ],
         );
 
         DB::table('teams')->insert(

@@ -7,7 +7,7 @@
 
     @foreach ($users as $user)
 
-    <tr class="standing position{{$loop->index + 1}}">
+    <tr class="standing position{{ $loop->index + 1 }}">
         <td class="rank text-center">{{ $loop->index + 1 }}.</td>
         <td>
             <a href="{{ route('user', $user->id) }}">

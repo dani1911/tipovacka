@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $stage = '> 6';
+        $stage = ' IN (7,8,9,11)';
 
         $users = DB::select('SELECT id, name, sum(points) AS points
                         FROM (
@@ -31,7 +31,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $stage = ' IN (7,8,9)';
+        $stage = ' IN (7,8,9,11)';
 
         $stage_predictions = User::with(['stagePredictions' => function($query) use ($stage) { $query->whereRaw('stage_id' . $stage); }])->findOrFail($id);
         $game_predictions = DB::select('SELECT u.id, u.name, gp.game_id AS gpgid, gp.home_team_goals AS gphg, gp.away_team_goals AS gpag, g.home_team_goals AS ghg, g.away_team_goals AS gag, gp.game_id as gpgi, g.game_date, htm.abbreviation AS htabb, htm.name AS htname, atm.abbreviation AS atabb, atm.name AS atname
@@ -75,7 +75,7 @@ class UserController extends Controller
 
     public function ajaxChangeStandingsContent(Request $request)
     {
-        ($request->stage === 'round1') ? $stage = '< 7' : $stage = '> 6';
+        ($request->stage === 'round1') ? $stage = ' IN (1,2,3,4,5,6,10)' : $stage = ' IN (7,8,9,11)';
 
         $users = DB::select('SELECT id, name, sum(points) AS points
                 FROM (
@@ -95,7 +95,7 @@ class UserController extends Controller
     public function ajaxChangePageContent(Request $request)
     {
         $id = $request->id;
-        ($request->stage === 'round1') ? $stage = ' IN (1,2,3,4,5,6,10)' : $stage = ' IN (7,8,9)';
+        ($request->stage === 'round1') ? $stage = ' IN (1,2,3,4,5,6,10)' : $stage = ' IN (7,8,9,11)';
 
         $game_predictions = DB::select('SELECT u.id, u.name, gp.game_id AS gpgid, gp.home_team_goals AS gphg, gp.away_team_goals AS gpag, g.home_team_goals AS ghg, g.away_team_goals AS gag, gp.game_id as gpgi, g.game_date, htm.abbreviation AS htabb, htm.name AS htname, atm.abbreviation AS atabb, atm.name AS atname
                             FROM game_predictions gp

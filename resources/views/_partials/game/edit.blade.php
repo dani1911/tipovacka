@@ -33,10 +33,10 @@
         <input class="input-field number" type="number" name="away_team_goals">
     </fieldset>
 
-    @if (in_array($game->stage_id, [7,8,9,10]))
+    @if (in_array($game->stage_id, [7,8,9,11]))
     
     <fieldset class="flex flex-justify-center flex-no-gap">
-        <label class="flex flex-justify-center flex-align-i-center" for="advancing_team"><i class="fa-solid fa-minus"></i></label>
+        <label class="flex flex-justify-center flex-align-i-center" for="advancing_team"><i class="fa-solid fa-trophy"></i></label>
         <select class="input-field text" name="advancing_team">
             <option value="">-- Vybrať --</option>
             <option value="{{ $game->home_team_id }}">{{ $game->homeTeam->name }}</option>
