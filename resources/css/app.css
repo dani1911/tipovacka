@@ -477,6 +477,10 @@ footer {
         width: 100%;
         overflow-x: scroll;
     }
+
+    .playoffs-tree-container {
+        transition: max-height .5s ease-out;
+    }
 }
 
 @media screen and (max-width: 512px) {

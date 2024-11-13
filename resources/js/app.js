@@ -80,4 +80,26 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
         }
     });
+
+    let cont = document.querySelector(".playoffs-tree-container"),
+    parent = cont.children;
+
+    let col1 = parent.item(0);
+    let col2 = parent.item(1);
+    let col3 = parent.item(2);
+
+    cont?.addEventListener("scroll", (e) => {
+        toggleHeight(col1);
+        toggleHeight(col2);
+        toggleHeight(col3);
+    })
+
+    function toggleHeight(col)
+    {
+        if (col.getBoundingClientRect().right < 0) {
+            col.style.maxHeight = "0px";
+        } else {
+            col.style.maxHeight = "1000px";
+        };
+    }
 });
