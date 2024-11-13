@@ -1,3 +1,11 @@
+@if ($user->name == 'none')
+
+<div class="user-title size-xs flex flex-justify-space-around" data-user="{{ $user->id }}">
+    <h2>Žiadne tipy</h2>
+</div>
+
+@else
+    
 <div class="user-title size-xs flex flex-justify-space-around" data-user="{{ $user->id }}">
     <h2>{{ $user->name }}</h2><span class="badge success">{{ $user->points }}</span>
 </div>
@@ -80,3 +88,5 @@
     
     </table>
 </div>
+
+@endif

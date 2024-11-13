@@ -10,10 +10,6 @@
         <link rel="stylesheet" href="{{ asset('/css/fontawesome/css/fontawesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/fontawesome/css/solid.min.css') }}">
 
-        {{-- prod --}}
-{{--        <link rel="stylesheet" href="{{ asset('build/assets/app-25xhbTEG.css') }}">
-        <script src="{{ asset('build/assets/app-ioYMgJol.js') }}"></script>
---}}
         {{-- dev --}}
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         

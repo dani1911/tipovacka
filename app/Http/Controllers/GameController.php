@@ -25,8 +25,8 @@ class GameController extends Controller
      */
     public function playoffs()
     {
-        $games = Game::with('homeTeam')->with('awayTeam')->withCount(['gamePredictions as points' => function($query) { $query->where('points', '>', 0); }])->whereIn('stage_id', [7,8,9,10])->orderBy('id')->get();
-        $stages = Stage::whereIn('id', [7,8,9,10])->get();
+        $games = Game::with('homeTeam')->with('awayTeam')->withCount(['gamePredictions as points' => function($query) { $query->where('points', '>', 0); }])->whereIn('stage_id', [7,8,9,11])->orderBy('id')->get();
+        $stages = Stage::whereIn('id', [7,8,9,11])->get();
 
         return view('playoffs', ['games' => $games, 'stages' => $stages, 'title' => 'Pavúk', 'date_format' => 'd. m. Y H:i']);
     }
