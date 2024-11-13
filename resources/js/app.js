@@ -81,14 +81,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    let cont = document.querySelector(".playoffs-tree-container"),
-    parent = cont.children;
+    let scrollCont = document.querySelector(".playoffs-tree-container"),
+        parent = document.querySelector(".playoffs-tree-container > div").children;
 
     let col1 = parent.item(0);
     let col2 = parent.item(1);
     let col3 = parent.item(2);
 
-    cont?.addEventListener("scroll", (e) => {
+    scrollCont?.addEventListener("scroll", (e) => {
         toggleHeight(col1);
         toggleHeight(col2);
         toggleHeight(col3);
@@ -96,10 +96,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function toggleHeight(col)
     {
-        if (col.getBoundingClientRect().right < cont.getBoundingClientRect().left) {
+        if (col.getBoundingClientRect().right < scrollCont.getBoundingClientRect().left) {
             col.style.maxHeight = "0px";
         };
-        if (col.getBoundingClientRect().right > cont.getBoundingClientRect().left) {
+        if (col.getBoundingClientRect().right > scrollCont.getBoundingClientRect().left) {
             col.style.maxHeight = "1000px";
         };
     }
