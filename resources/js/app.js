@@ -96,9 +96,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function toggleHeight(col)
     {
-        if (col.getBoundingClientRect().right < 0) {
+        if (col.getBoundingClientRect().right < cont.getBoundingClientRect().left) {
             col.style.maxHeight = "0px";
-        } else {
+        };
+        if (col.getBoundingClientRect().right > cont.getBoundingClientRect().left) {
             col.style.maxHeight = "1000px";
         };
     }

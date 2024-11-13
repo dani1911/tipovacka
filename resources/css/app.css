@@ -476,9 +476,10 @@ footer {
     .playoffs-tree-container {
         width: 100%;
         overflow-x: scroll;
+        overflow-y: hidden;
     }
-
-    .playoffs-tree-container {
+    
+    .playoffs-tree-container > div {
         transition: max-height .5s ease-out;
     }
 }
