@@ -473,9 +473,15 @@ footer {
 }
 
 @media screen and (max-width: 900px) {
-    .playoffs-tree-container {
+    .playoffs-tree-container  {
         width: 100%;
         overflow-x: scroll;
+        overflow-y: hidden;
+        flex: 1;
+    }
+
+    .playoffs-tree-container > div > div {
+        transition: max-height .5s ease-out;
     }
 }
 
