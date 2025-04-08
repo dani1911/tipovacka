@@ -26,7 +26,7 @@
                     <table class="palyoffs-table">
                         <tr>
                             <td colspan="3">
-                                <div class="date">{{ \Carbon\Carbon::parse($game->game_date)->format($date_format) }}</div>
+                                <div class="date" data-timestamp="{{ \Carbon\Carbon::parse($game->game_date)->timestamp }}">{{ \Carbon\Carbon::parse($game->game_date)->format($date_format) }}</div>
                             </td>
                         </tr>
                         <tr>

@@ -1,20 +1,38 @@
 import "./bootstrap";
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const gameElement = document.querySelector(".game_id"),
         fieldset = document.querySelector(".advancing_team"),
         stageSelector = document.querySelector(".stages"),
-        pageName = document.querySelector("body").getAttribute("data-page");
+        pageName = document.querySelector("body").getAttribute("data-page"),
+        poTreeCont = document.querySelector(".playoffs-tree-container"),
+        dates = document.querySelectorAll(".date"),
+        today = Date.now(),
+        currentPage = document.location.pathname;
+
+    if (currentPage === "/playoffs") {
+        const viewWidth = window.innerWidth,
+            lastElem = poTreeCont.lastElementChild;
+
+        let poTreeContCoords = poTreeCont.getBoundingClientRect(),
+            lastElemCoords = lastElem.getBoundingClientRect();
+
+        if (lastElemCoords.right > viewWidth) {
+            console.log("left " + poTreeContCoords.left);
+            console.log("view " + viewWidth);
+            console.log("right " + lastElemCoords.right);
+            console.log(dates);
+        }
+    }
 
     gameElement?.addEventListener("change", (event) => {
         let gameId = gameElement.value;
-    
+
         axios
             .post("ajaxGetTeams", {
                 id: gameId,
             })
             .then(function (response) {
-    
                 if (response.data.game.stage > 6) {
                     fieldset.innerHTML =
                         '<label class="flex flex-justify-center flex-align-i-center" for="advancing_team"><i class="fa-solid fa-medal"></i></label>' +
@@ -41,39 +59,41 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     stageSelector?.addEventListener("click", (event) => {
-
         const refreshEl = document.querySelector(".refresh-data");
         let stage = event.target,
             stageAttr = stage.getAttribute("data-stage");
 
-        if (pageName == 'user') {
-
-            const user_id = document.querySelector(".user-title").getAttribute("data-user");
+        if (pageName == "user") {
+            const user_id = document
+                .querySelector(".user-title")
+                .getAttribute("data-user");
 
             axios
-                .post(pageName + '/update', {
+                .post(pageName + "/update", {
                     stage: stageAttr,
                     id: user_id,
                 })
-                .then(response => {
+                .then((response) => {
                     refreshEl.innerHTML = response.data.html;
-                    stage.parentNode.querySelector('.selected').classList.remove('selected');
-                    stage.classList.add('selected');
+                    stage.parentNode
+                        .querySelector(".selected")
+                        .classList.remove("selected");
+                    stage.classList.add("selected");
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-
         } else {
-
             axios
-                .post(pageName + '/update', {
+                .post(pageName + "/update", {
                     stage: stageAttr,
                 })
-                .then(response => {
+                .then((response) => {
                     refreshEl.innerHTML = response.data.html;
-                    stage.parentNode.querySelector('.selected').classList.remove('selected');
-                    stage.classList.add('selected');
+                    stage.parentNode
+                        .querySelector(".selected")
+                        .classList.remove("selected");
+                    stage.classList.add("selected");
                 })
                 .catch(function (error) {
                     console.log(error);
