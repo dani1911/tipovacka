@@ -1,0 +1,95 @@
+[data-theme="world-cup-2026"] {
+    --color-background: black;
+    --color-primary: hsl(41, 86%, 61%);
+    --color-secondary: hsl(0, 0%, 14%);
+
+    --color-info: oklch(0.31 0.09 250);
+    --color-success: oklch(0.30 0.10 160);
+    --color-warning: oklch(0.34 0.09 82);
+    --color-error: oklch(0.31 0.12 25);
+
+    --accent-l: 80%;
+    
+    --color-shadow: var(--color-primary);
+    --color-shadow-bg: var(--color-zinc-800);
+
+    body {
+        font-family: 'Noto Sans', sans-serif;
+    }
+
+    .title-h3 {
+        text-transform: uppercase;
+    }
+
+    .games-list {
+        gap: .325rem;
+    }
+        
+    .game-box,
+    .groups-list,
+    .table-col-fixed {
+        background-color: var(--color-secondary);
+    }
+
+    .game-box__header,
+    .game-view__meta {
+        font-size: .875rem;
+
+        .badge {
+            background-color: var(--color-primary);
+            color: black;
+            padding: 0 0.25rem;
+            font-weight: 700;
+        }
+    }
+
+    .game-box__team {
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .game-box__score,
+    .game-box__stats,
+    .game-view__score {
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            color: black;
+            width: 1.75rem;
+            height: 1.75rem;
+            font-weight: 900;
+        }
+    }
+
+    .game-box__stats {
+        .badge {
+            border-radius: 50%;
+            font-weight: 700;
+            background-color: var(--color-primary);
+        }
+    }
+    
+    .game-view__header,
+    .game-view__prediction-list {
+        background-color: var(--color-secondary);
+    }
+    
+    .game-view__score {
+        font-size: 2rem;
+        font-weight: 900;
+        
+        .badge {
+            color: black;
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+
+    .game-prediction-modal,
+    .stage-prediction-modal {
+        background-color: var(--color-background);
+        border: 1px solid var(--color-accent);
+    }
+}

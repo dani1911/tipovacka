@@ -1,0 +1,23 @@
+:root {
+    --color-karpatska-primary: oklch(0.8 0.07 236.22);
+    --color-karpatska-secondary: oklch(0.82 0.14 84.17);
+
+    --color-primary: var(--color-karpatska-secondary);
+    --color-secondary: var(--color-karpatska-primary);
+
+    --color-background: var(--color-karpatska-primary);
+    
+    --color-text: #ffffff;
+    
+    --color-info: hsl(213 100% 93%);
+    --color-success: hsl(150 79% 89%);
+    --color-warning: hsl(44 100% 87%);
+    --color-error: hsl(357 100% 94%);
+    
+    --accent-l: 20%;
+
+    --color-shadow: hsl(0 0% 0% / 0.15);
+    --color-shadow-bg: var(--color-text);
+
+    --nav-height: 5rem;
+}

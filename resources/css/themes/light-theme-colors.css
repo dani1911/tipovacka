@@ -1,0 +1,11 @@
+[data-theme="light-theme-colors"] {
+    --color-info: hsl(214 44% 33%);
+    --color-success: hsl(151 73% 24%);
+    --color-warning: hsl(44 76% 26%);
+    --color-error: hsl(357 37% 34%);
+
+    --accent-l: 80%;
+
+    --color-shadow: hsl(0 0% 100% / 0.15);
+    --color-shadow-bg: var(--color-zinc-800);
+}

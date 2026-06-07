@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Livewire\Groups;
+
+use App\Enums\Phase;
+use App\Models\Stage;
+use App\Models\StageTeam;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
+use Livewire\Component;
+
+class ListGroups extends Component
+{
+    public int $tournamentId;
+
+    public bool $hasDeadlinePassed = false;
+
+    protected $listeners = [
+        'stage-prediction-saved' => '$refresh',
+    ];
+
+    public function mount()
+    {
+        $tournament = view()->shared('tournament');
+
+        $this->tournamentId = $tournament->id;
+        $this->hasDeadlinePassed = $tournament->rulesets->where('phase', Phase::GROUP)->first()?->hasDeadlinePassed() ?? false;
+    }
+
+    private function getUsers(): Collection
+    {
+        return User::whereHas('stagePredictions', fn($q) => $q->where('tournament_id', $this->tournamentId))
+            ->with(['stagePredictions' => fn($q) => $q->where('tournament_id', $this->tournamentId)->with('team')])
+            ->orderBy('name', 'asc')
+            ->get()
+            ->each(function ($user) {
+                $user->setRelation(
+                    'stagePredictions',
+                    $user->stagePredictions->keyBy('stage_id')
+                );
+            });
+    }
+
+    private function getStages(): Collection
+    {
+        return Stage::whereIn(
+            'id',
+            StageTeam::where('tournament_id', $this->tournamentId)
+                ->distinct()
+                ->pluck('stage_id')
+        )->get();
+    }
+
+    public function render()
+    {
+        $users = $this->getUsers();
+
+        return view('livewire.groups.list-groups', [
+            'users' => $users,
+            'stages' => $this->getStages(),
+            'finalStageId' => Stage::where('phase', Phase::FINAL)->value('id'),
+            'userHasPredictions' => $users->contains('id', auth()->id()),
+        ]);
+    }
+}

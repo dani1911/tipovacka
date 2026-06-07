@@ -1,0 +1,1 @@
+<img src="{{ asset('storage/img/karpatska-logo.webp') }}" alt="ŠK Karpatská 1983 logo">
