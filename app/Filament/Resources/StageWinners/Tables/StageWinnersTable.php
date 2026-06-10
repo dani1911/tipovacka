@@ -18,7 +18,7 @@ class StageWinnersTable
                     ->searchable(),
                 TextColumn::make('stage.name')
                     ->searchable(),
-                TextColumn::make('team.id')
+                TextColumn::make('team.name')
                     ->searchable(),
             ])
             ->filters([
