@@ -9,6 +9,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,11 +44,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasRole(['admin', 'super_admin']);
     }
 
-/**
- * Gets the game predictions associated with the user.
- *
- * @return HasMany
- */
+    /**
+     * Gets the game predictions associated with the user.
+     *
+     * @return HasMany
+     */
     public function gamePredictions(): HasMany
     {
         return $this->hasMany(GamePrediction::class);
@@ -61,5 +62,15 @@ class User extends Authenticatable implements FilamentUser
     public function stagePredictions(): HasMany
     {
         return $this->hasMany(StagePrediction::class);
+    }
+
+    /**
+     * Calculates total points amassed from predictions by an user.
+     */
+    public function totalPoints(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => ((int) $this->game_predictions_sum_points ?? 0) + ((int) $this->stage_predictions_sum_points ?? 0)
+        );
     }
 }

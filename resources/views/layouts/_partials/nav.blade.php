@@ -24,13 +24,13 @@
             label="{{ __('Bracket') }}"
             icon="tabler-sitemap"
             class="rotate-90"
-        />
+        /> --}}
         <x-nav-item
             route="users"
             :tournament="$tournament ?? null"
             label="{{ __('Users') }}"
             icon="heroicon-o-numbered-list"
-        /> --}}
+        />
         @auth
             <li class="nav-item">
                 <div class="nav-link" href="">
