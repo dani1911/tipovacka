@@ -79,4 +79,20 @@ class Stage extends Model
     {
         return $this->hasOne(Ruleset::class);
     }
+
+    /**
+     * Checks whether current stage is knockout.
+     */
+    public function isKnockout(): bool
+    {
+        return $this->phase->isKnockout();
+    }
+
+    /**
+     * Returns query with knockout games.
+     */
+    public function scopeKnockout($query)
+    {
+        return $query->whereIn('phase', Phase::knockoutPhases());
+    }
 }

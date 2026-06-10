@@ -69,6 +69,9 @@ class GamePrediction extends Model
         );
     }
 
+    /**
+     * Sets the game winning team based on predicted score.
+     */
     protected static function booted(): void
     {
         $callback = function (GamePrediction $prediction) {

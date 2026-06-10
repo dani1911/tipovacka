@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Phase;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,5 +52,18 @@ class StagePrediction extends Model
     public function scopeEarned($query)
     {
         return $query->whereNotNull('points')->where('points', '>', 0);
+    }
+
+    /**
+     * Determines if the prediction is correct.
+     */
+    protected function isCorrect(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => StageWinner::where('tournament_id', $this->tournament_id)
+            ->where('stage_id', $this->stage_id)
+            ->where('team_id', $this->team_id)
+            ->first()
+        );
     }
 }

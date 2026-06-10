@@ -168,4 +168,14 @@ class Game extends Model
             ->first()
             ?->hasDeadlinePassed() ?? false;
     }
+
+    /**
+     * Gets the number of correct game predictions.
+     */
+    public function correctGamePredictions(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->gamePredictions()->where('points', '>=', 1)->count()
+        );
+    }
 }
