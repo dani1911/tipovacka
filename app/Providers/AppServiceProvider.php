@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Game;
+use App\Models\StageWinner;
 use App\Observer\GameObserver;
+use App\Observer\StageWinnerObserver;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
 use Illuminate\Support\Facades\Gate;
@@ -16,7 +18,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Game::observe(GameObserver::class);
     }
 
     /**
@@ -42,5 +43,8 @@ class AppServiceProvider extends ServiceProvider
                 logger("Gate denied: {$ability} for user {$user->id}");
             }
         });
+
+        Game::observe(GameObserver::class);
+        StageWinner::observe(StageWinnerObserver::class);
     }
 }
