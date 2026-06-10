@@ -15,6 +15,6 @@ class Teams extends Page
 
     public static function getNavigationLabel(): string
     {
-        return __('Teams');
+        return __('teams.navigation_label');
     }
 }

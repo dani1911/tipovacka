@@ -16,7 +16,10 @@ class GameAdvancementResource extends Resource
 {
     protected static ?string $model = GameAdvancement::class;
 
-    protected static ?string $navigationParentItem = 'Games';
+    public static function getNavigationParentItem(): string
+    {
+        return __('games.navigation_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

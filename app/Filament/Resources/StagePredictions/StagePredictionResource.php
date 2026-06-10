@@ -16,7 +16,10 @@ class StagePredictionResource extends Resource
 {
     protected static ?string $model = StagePrediction::class;
 
-    protected static ?string $navigationParentItem = 'Users';
+    public static function getNavigationParentItem(): string
+    {
+        return __('users.navigation_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

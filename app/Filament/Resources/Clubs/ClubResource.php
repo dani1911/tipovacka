@@ -16,18 +16,21 @@ class ClubResource extends Resource
 {
     protected static ?string $model = Club::class;
 
-    protected static ?string $navigationParentItem = 'Teams';
+    public static function getNavigationParentItem(): string
+    {
+        return __('teams.navigation_label');
+    }
 
     protected static ?int $navigationSort = 3;
 
     public static function getNavigationLabel(): string
     {
-        return __('Clubs');
+        return __('clubs.navigation_label');
     }
 
     public static function getRecordTitleAttribute(): string
     {
-        return __('Club');
+        return __('clubs.title');
     }
 
     public static function form(Schema $schema): Schema

@@ -16,7 +16,10 @@ class StageTeamResource extends Resource
 {
     protected static ?string $model = StageTeam::class;
 
-    protected static ?string $navigationParentItem = 'Tournaments';
+    public static function getNavigationParentItem(): string
+    {
+        return __('tournaments.navigation_label');
+    }
 
     protected static ?int $navigationSort = 3;
 

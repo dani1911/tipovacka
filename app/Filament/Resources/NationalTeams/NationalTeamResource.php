@@ -16,18 +16,21 @@ class NationalTeamResource extends Resource
 {
     protected static ?string $model = NationalTeam::class;
 
-    protected static ?string $navigationParentItem = 'Teams';
+    public static function getNavigationParentItem(): string
+    {
+        return __('teams.navigation_label');
+    }
 
     protected static ?int $navigationSort = 2;
 
     public static function getNavigationLabel(): string
     {
-        return __('National Teams');
+        return __('national_teams.navigation_label');
     }
 
     public static function getRecordTitleAttribute(): string
     {
-        return __('National Team');
+        return __('national_teams.title');
     }
 
     public static function form(Schema $schema): Schema

@@ -25,12 +25,12 @@ class TournamentResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('Tournaments');
+        return __('tournaments.navigation_label');
     }
 
     public static function getRecordTitleAttribute(): string
     {
-        return __('Tournament');
+        return __('tournaments.title');
     }
 
     public static function form(Schema $schema): Schema

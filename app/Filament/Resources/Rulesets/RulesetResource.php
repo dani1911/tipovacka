@@ -16,18 +16,21 @@ class RulesetResource extends Resource
 {
     protected static ?string $model = Ruleset::class;
 
-    protected static ?string $navigationParentItem = 'Tournaments';
+    public static function getNavigationParentItem(): string
+    {
+        return __('tournaments.navigation_label');
+    }
 
     protected static ?int $navigationSort = 1;
 
     public static function getNavigationLabel(): string
     {
-        return __('Rulesets');
+        return __('rulesets.navigation_label');
     }
 
     public static function getRecordTitleAttribute(): string
     {
-        return __('Ruleset');
+        return __('rulesets.title');
     }
 
     public static function form(Schema $schema): Schema

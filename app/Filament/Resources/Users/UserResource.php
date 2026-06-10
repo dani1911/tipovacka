@@ -27,12 +27,12 @@ class UserResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('Users');
+        return __('users.navigation_label');
     }
 
     public static function getRecordTitleAttribute(): string
     {
-        return __('User');
+        return __('users.title');
     }
 
     public static function getNavigationBadge(): ?string

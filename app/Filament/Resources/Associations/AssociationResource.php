@@ -16,18 +16,21 @@ class AssociationResource extends Resource
 {
     protected static ?string $model = Association::class;
 
-    protected static ?string $navigationParentItem = 'Teams';
+    public static function getNavigationParentItem(): string
+    {
+        return __('teams.navigation_label');
+    }
 
     protected static ?int $navigationSort = 1;
 
     public static function getNavigationLabel(): string
     {
-        return __('Associations');
+        return __('association.navigation_label');
     }
 
     public static function getRecordTitleAttribute(): string
     {
-        return __('Association');
+        return __('association.title');
     }
 
     public static function form(Schema $schema): Schema

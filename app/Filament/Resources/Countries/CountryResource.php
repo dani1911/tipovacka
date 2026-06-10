@@ -16,18 +16,21 @@ class CountryResource extends Resource
 {
     protected static ?string $model = Country::class;
 
-    protected static ?string $navigationParentItem = 'Teams';
+    public static function getNavigationParentItem(): string
+    {
+        return __('teams.navigation_label');
+    }
 
     protected static ?int $navigationSort = 1;
 
     public static function getNavigationLabel(): string
     {
-        return __('Countries');
+        return __('countries.navigation_label');
     }
 
     public static function getRecordTitleAttribute(): string
     {
-        return __('Country');
+        return __('countries.title');
     }
 
     public static function form(Schema $schema): Schema

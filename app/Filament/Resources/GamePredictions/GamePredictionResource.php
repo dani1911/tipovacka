@@ -16,7 +16,10 @@ class GamePredictionResource extends Resource
 {
     protected static ?string $model = GamePrediction::class;
 
-    protected static ?string $navigationParentItem = 'Users';
+    public static function getNavigationParentItem(): string
+    {
+        return __('users.navigation_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

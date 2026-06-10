@@ -16,7 +16,10 @@ class StageResource extends Resource
 {
     protected static ?string $model = Stage::class;
 
-    protected static ?string $navigationParentItem = 'Tournaments';
+    public static function getNavigationParentItem(): string
+    {
+        return __('tournaments.navigation_label');
+    }
 
     protected static ?int $navigationSort = 2;
 

@@ -23,12 +23,12 @@ class GameResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('Games');
+        return __('games.navigation_label');
     }
 
     public static function getRecordTitleAttribute(): string
     {
-        return __('Game');
+        return __('games.title');
     }
 
     public static function form(Schema $schema): Schema
