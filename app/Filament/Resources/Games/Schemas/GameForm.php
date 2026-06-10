@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Games\Schemas;
 
 use App\Models\Stage;
 use App\Models\StageTeam;
-use App\Models\Team;
 use App\Models\Tournament;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -26,7 +25,6 @@ class GameForm
                         Select::make('tournament_id')
                             ->columnSpan(3)
                             ->relationship('tournament', 'name')
-                            // ->live()
                             ->afterStateUpdated(function (Set $set) {
                                 $set('home_team_id', null);
                                 $set('away_team_id', null);
@@ -54,6 +52,7 @@ class GameForm
                                 fn(string $operation): string|array => $operation === 'create' ? 'full' : ['default' => 3]
                             )
                             ->label(__('Home team'))
+                            ->live()
                             ->options(function (Get $get) {
                                 $tournament = Tournament::find($get('tournament_id'));
                                 $stage = Stage::find($get('stage_id'));
@@ -64,8 +63,14 @@ class GameForm
                                     ->with(['team.club', 'team.nationalTeam.country'])
                                     ->get()
                                     ->sortBy('team.name')
-                                    ->pluck('team.name', 'id');
-                            }),
+                                    ->pluck('team.name', 'team_id');
+                                })
+                                ->getOptionLabelUsing(fn ($value): ?string =>
+                                    StageTeam::where('team_id', $value)
+                                        ->with(['team.club', 'team.nationalTeam.country'])
+                                        ->first()
+                                        ?->team?->name
+                                ),
                         TextInput::make('home_team_score')
                             ->columnSpan([
                                 'default' => 1
@@ -78,6 +83,7 @@ class GameForm
                                 fn(string $operation): string|array => $operation === 'create' ? 'full' : ['default' => 3]
                             )
                             ->label(__('Away team'))
+                            ->live()
                             ->options(function (Get $get) {
                                 $tournament = Tournament::find($get('tournament_id'));
                                 $stage = Stage::find($get('stage_id'));
@@ -88,8 +94,15 @@ class GameForm
                                     ->with(['team.club', 'team.nationalTeam.country'])
                                     ->get()
                                     ->sortBy('team.name')
-                                    ->pluck('team.name', 'id');
-                            }),
+                                    ->pluck('team.name', 'team_id');
+                                })
+                                ->getOptionLabelUsing(
+                                    fn($value): ?string =>
+                                    StageTeam::where('team_id', $value)
+                                        ->with(['team.club', 'team.nationalTeam.country'])
+                                        ->first()
+                                        ?->team?->name
+                            ),
                         TextInput::make('away_team_score')
                             ->columnSpan([
                                 'default' => 1
@@ -100,8 +113,25 @@ class GameForm
                         Select::make('winner_team_id')
                             ->columnSpan(['default' => 4])
                             ->label(__('Winning team'))
-                            ->relationship('winnerTeam', 'id')
-                            ->hiddenOn('create'),
+                            ->hiddenOn('create')
+                            ->options(function (Get $get) {
+                                $homeTeamId = $get('home_team_id');
+                                $awayTeamId = $get('away_team_id');
+
+                                if (!$homeTeamId || !$awayTeamId) return [];
+
+                                return StageTeam::whereIn('team_id', [$homeTeamId, $awayTeamId])
+                                    ->with(['team.club', 'team.nationalTeam.country'])
+                                    ->get()
+                                    ->sortBy('team.name')
+                                    ->pluck('team.name', 'team_id');
+                                })
+                                ->getOptionLabelUsing(fn ($value): ?string =>
+                                    StageTeam::where('team_id', $value)
+                                        ->with(['team.club', 'team.nationalTeam.country'])
+                                        ->first()
+                                        ?->team?->name
+                                ),
                     ]),
             ]);
     }

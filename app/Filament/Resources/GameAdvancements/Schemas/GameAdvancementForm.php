@@ -32,7 +32,7 @@ class GameAdvancementForm
 
                         return Game::where('tournament_id', $tournamentId)
                             ->get()
-                            ->pluck('game_number');
+                            ->pluck('game_number', 'id');
                     })
                     ->label(__('Source game'))
                     ->required(),
@@ -43,7 +43,7 @@ class GameAdvancementForm
 
                         return Game::where('tournament_id', $tournamentId)
                             ->get()
-                            ->pluck('game_number');
+                            ->pluck('game_number', 'id');
                     })
                     ->label(__('Destination game'))
                     ->required(),

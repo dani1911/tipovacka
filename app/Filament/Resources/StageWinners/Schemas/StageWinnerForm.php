@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources\StageWinners\Schemas;
 
-use App\Models\Team;
+use App\Models\Stage;
+use App\Models\StageTeam;
 use App\Models\Tournament;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Utilities\Get;
@@ -17,25 +18,38 @@ class StageWinnerForm
             ->components([
                 Select::make('tournament_id')
                     ->relationship('tournament', 'name')
-                    ->live()
                     ->afterStateUpdated(function (Set $set) {
                         $set('team_id', null);
                     })
                     ->required(),
                 Select::make('stage_id')
                     ->relationship('stage', 'name')
+                    ->live()
+                    ->afterStateUpdated(function (Set $set) {
+                        $set('team_id', null);
+                    })
                     ->required(),
                 Select::make('team_id')
+                    ->label(__('Group winner'))
+                    ->live()
                     ->options(function (Get $get) {
                         $tournament = Tournament::find($get('tournament_id'));
-                        if (!$tournament) return [];
+                        $stage = Stage::find($get('stage_id'));
+                        if (!$tournament && !$stage) return [];
 
-                        return Team::where('type', $tournament->type)
-                            ->with(['club', 'nationalTeam.country'])
+                        return StageTeam::where('tournament_id', $tournament->id)
+                            ->where('stage_id', $stage->id)
+                            ->with(['team.club', 'team.nationalTeam.country'])
                             ->get()
-                            ->pluck('name', 'id');
-                    })
-                    ->label(__('Team'))
+                            ->sortBy('team.name')
+                            ->pluck('team.name', 'team_id');
+                        })
+                        ->getOptionLabelUsing(fn ($value): ?string =>
+                            StageTeam::where('team_id', $value)
+                                ->with(['team.club', 'team.nationalTeam.country'])
+                                ->first()
+                                ?->team?->name
+                        )
                     ->required(),
             ]);
     }
