@@ -41,16 +41,25 @@ enum Phase: string implements HasLabel, HasColor
         };
     }
 
-    // TODO this doesn't seem to work -- maybe abandon
-    public function getPhase()
+    public static function knockoutPhases(): array
+    {
+        return [
+            self::KNOCKOUT,
+            self::THIRDPLACE,
+            self::FINAL,
+        ];
+    }
+
+    public function isKnockout(): bool
     {
         return match ($this) {
-            self::PLAYIN => 'playout',
-            self::PLAYOUT => 'playin',
-            self::GROUP => 'group',
-            self::KNOCKOUT => 'knockout',
-            self::THIRDPLACE => 'knockout',
-            self::FINAL => 'knockout',
+            self::KNOCKOUT, self::THIRDPLACE, self::FINAL => true,
+            default => false,
         };
+    }
+
+    public function rulesetPhase(): Phase
+    {
+        return $this->isKnockout() ? Phase::KNOCKOUT : $this;
     }
 }

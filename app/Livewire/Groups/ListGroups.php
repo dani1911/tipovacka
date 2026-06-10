@@ -44,11 +44,14 @@ class ListGroups extends Component
     private function getStages(): Collection
     {
         return Stage::whereIn(
-            'id',
-            StageTeam::where('tournament_id', $this->tournamentId)
-                ->distinct()
-                ->pluck('stage_id')
-        )->get();
+                'id',
+                StageTeam::with('stage')
+                    ->where('tournament_id', $this->tournamentId)
+                    ->distinct()
+                    ->pluck('stage_id')
+            )
+            ->where('phase', Phase::GROUP)
+            ->get();
     }
 
     public function render()
