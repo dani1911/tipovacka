@@ -8,7 +8,7 @@
         <div class="main-heading">
             <h1>{{ __('Karpatská tipovačka') }}</h1>
             @if (@isset($tournament->name))
-                <span class="sub-heading">{{ $tournament->name }}</span>
+                <h2 class="sub-heading">{{ $tournament->name }}</h2>
             @endif
         </div>
         <img src="{{ asset('storage/img/karpatska-logo.webp') }}" alt="ŠK Karpatská 1983 logo">

@@ -16,6 +16,19 @@
     body {
         font-family: 'Noto Sans', sans-serif;
     }
+    
+    .page-heading {
+        padding: 1rem;
+        background-color: var(--color-secondary);
+
+        .badge {
+            width: 3.5rem;
+            height: 3.5rem;
+            background-color: var(--color-primary);
+            color: black;
+            font-weight: 700;
+        }
+    }
 
     .title-h3 {
         text-transform: uppercase;
@@ -72,8 +85,13 @@
     }
     
     .game-view__header,
-    .game-view__prediction-list {
+    .game-view__prediction-list,
+    .user-list {
         background-color: var(--color-secondary);
+    }
+
+    .game-view__team-name {
+        text-transform: uppercase;
     }
     
     .game-view__score {
@@ -84,6 +102,14 @@
             color: black;
             width: 2rem;
             height: 2rem;
+        }
+    }
+    
+    .game-view__prediction-list,
+    .groups-list {
+        .badge {
+            background: var(--color-primary);
+            color: black;
         }
     }
 

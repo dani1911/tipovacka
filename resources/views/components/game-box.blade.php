@@ -52,7 +52,7 @@
         </a>
         @if ($game->hasScore)
             <div class="game-box__stats">
-                <span class="badge">10</span>
+                <span class="badge">{{ $game->correctGamePredictions }}</span> {{-- TODO count correct predictions --}}
             </div>
         @endif
         @auth

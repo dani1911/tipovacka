@@ -17,11 +17,28 @@
     --radius: .5rem;
 
     .games-list,
-    .game-view__prediction-list {
+    .game-view__prediction-list,
+    .user-list {
         margin-inline: .5rem;
         padding-inline: .5rem;
         background-color: var(--color-secondary);
         border-radius: var(--radius);
+    }
+
+    .page-heading {
+        margin-inline: .5rem;
+        padding: 1rem;
+        background-color: var(--color-secondary);
+        border-radius: var(--radius);
+
+        .badge {
+            width: 3.5rem;
+            height: 3.5rem;
+            background-color: white;
+            color: black;
+            font-weight: 700;
+            border-radius: 50%;
+        }
     }
 
     .groups-list {
@@ -99,9 +116,26 @@
             object-fit: cover;
         }
     }
+
+    .game-view__header {
+        margin-inline: .5rem;
+        padding: 1rem;
+        background-color: var(--color-secondary);
+        border-radius: var(--radius);
+    }
+
     .game-view__prediction {
         &.badge {
             border-radius: var(--radius);
+        }
+    }
+
+    .game-view__prediction-list,
+    .groups-list {
+        .badge {
+            background: white;
+            color: black;
+            border-radius: 100px;
         }
     }
 

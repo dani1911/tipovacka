@@ -37,9 +37,25 @@
                 <tr>
                     <td class="table-col-fixed left-0 py-3 px-3">{{ $user->name }}</td>
                     @foreach ($stages as $stage)
-                        <td class="py-3 px-3">{{ $user->stagePredictions->get($stage->id)?->team?->name ?? '' }}</td>
+                        <td class="py-3 px-3">
+                            <span
+                                @class([
+                                    'badge' => $user->stagePredictions->get($stage->id)?->isCorrect
+                                ])
+                            >
+                                {{ $user->stagePredictions->get($stage->id)?->team?->name ?? '' }}
+                            </span>
+                        </td>
                     @endforeach
-                    <td class="py-3 px-3">{{ $user->stagePredictions->get($finalStageId)?->team?->name ?? '' }}</td>
+                        <td class="py-3 px-3">
+                            <span
+                                @class([
+                                    'badge' => $user->stagePredictions->get($finalStageId)?->isCorrect
+                                ])
+                            >
+                                {{ $user->stagePredictions->get($finalStageId)?->team?->name ?? '' }}
+                            </span>
+                        </td>
                 </tr>
             @endforeach
             </tbody>

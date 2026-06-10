@@ -1,11 +1,13 @@
 <article>
-    <header class="game-view__header">
+    <header class="game-view__header my-2">
         <div class="flex items-start">
-            <img
-                src="{{ asset('storage/' . $game->homeTeam->logo) }}"
-                alt="{{ $game->homeTeam->name }} flag"
-                class="game-view__logo"
-            >
+            <div class="w-full max-w-20 flex self-center justify-start">
+                <img
+                    src="{{ asset('storage/' . $game->homeTeam->logo) }}"
+                    alt="{{ $game->homeTeam->name }} flag"
+                    class="game-view__logo"
+                >
+            </div>
             <div class="flex-1 flex flex-col items-center justify-center">
                 <div class="game-view__meta flex gap-1 flex-wrap justify-center">
                     <span class="badge">{{ $game->game_time->format('d. m. Y H:i') }}</span>
@@ -13,17 +15,19 @@
                 </div>
                 <div class="game-view__score">
                     @if ($game->hasScore)
-                        <span class="badge">0{{ $game->home_team_score }}</span>
+                        <span class="badge">{{ $game->home_team_score }}</span>
                         <span>:</span>
-                        <span class="badge">4{{ $game->away_team_score }}</span>
+                        <span class="badge">{{ $game->away_team_score }}</span>
                     @endif
                 </div>
             </div>
-            <img
-                src="{{ asset('storage/' . $game->awayTeam->logo) }}"
-                alt="{{ $game->awayTeam->name }} flag"
-                class="game-view__logo"
-            >
+            <div class="w-full max-w-20 flex self-center justify-end">
+                <img
+                    src="{{ asset('storage/' . $game->awayTeam->logo) }}"
+                    alt="{{ $game->awayTeam->name }} flag"
+                    class="game-view__logo"
+                >
+            </div>
         </div>
         <div class="game-view__teams flex justify-between items-center">
             <div class="game-view__team-name text-left">{{ $game->homeTeam->name }}</div>
@@ -67,14 +71,26 @@
     <h3 class="title-h3">{{ __('All predictions') }}</h3>
     <section class="game-view__prediction-list">
         @forelse ($predictions as $prediction)
-            <div class="flex">
-                <span class="flex-1">{{ $prediction->user->name }}</span>
-                @if ($game->hasDeadlinePassed())
-                    <span>{{ $prediction->home_team_score }} : {{ $prediction->away_team_score }}</span>
-                @else
-                    <span>? : ?</span>
-                @endif
-            </div>
+            <a href="{{ route('tournament.user', [$tournament, $prediction->user]) }}">
+                <div class="flex items-center py-1">
+                    <span class="flex-1">{{ $prediction->user->name }}</span>
+                    @if ($game->hasDeadlinePassed())
+                        <span
+                            class="inline-flex justify-center items-center w-17.5"
+                        >
+                            <span
+                                @class([
+                                    'badge' => $prediction->isCorrect
+                                ])
+                            >
+                                {{ $prediction->home_team_score }} : {{ $prediction->away_team_score }}
+                            </span>
+                        </span>
+                    @else
+                        <span>? : ?</span>
+                    @endif
+                </div>
+            </a>
         @empty
             <p class="game-box text-center">{{ __('No predictions yet') }}</p>
         @endforelse
