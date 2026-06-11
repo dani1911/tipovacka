@@ -86,6 +86,7 @@
     
     .game-view__header,
     .game-view__prediction-list,
+    .stage-winners,
     .user-list {
         background-color: var(--color-secondary);
     }
@@ -117,5 +118,21 @@
     .stage-prediction-modal {
         background-color: var(--color-background);
         border: 1px solid var(--color-accent);
+    }
+
+    .tabs {
+        width: 100%;
+        text-transform: uppercase;
+    }
+
+    .tab {
+        width: 50%;
+        background-color: var(--color-secondary);
+        text-align: center;
+        padding-block: .5rem;
+    }
+
+    .muted {
+        opacity: 75%;
     }
 }

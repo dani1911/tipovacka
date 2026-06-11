@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\StagePredictions\Schemas;
 
+use App\Models\Stage;
+use App\Models\StageTeam;
 use App\Models\Team;
 use App\Models\Tournament;
 use Filament\Forms\Components\Select;
@@ -18,32 +20,47 @@ class StagePredictionForm
             ->components([
                 Select::make('tournament_id')
                     ->options(Tournament::pluck('name', 'id'))
-                    ->live()
+                    ->label(__('Tournament'))
                     ->afterStateUpdated(function (Set $set) {
                         $set('team_id', null);
                     })
-                    ->label(__('Tournament'))
                     ->required(),
                 Select::make('stage_id')
                     ->relationship('stage', 'name')
                     ->label(__('Stage'))
+                    ->live()
+                    ->afterStateUpdated(function (Set $set) {
+                        $set('team_id', null);
+                    })
                     ->required(),
                 Select::make('user_id')
                     ->relationship('user', 'name')
                     ->label(__('User'))
                     ->required(),
                 Select::make('team_id')
+                    ->label(__('Group winner'))
+                    ->live()
                     ->options(function (Get $get) {
                         $tournament = Tournament::find($get('tournament_id'));
-                        if (!$tournament) return [];
+                        $stage = Stage::find($get('stage_id'));
+                        if (!$tournament && !$stage) return [];
 
-                        return Team::where('type', $tournament->type)
-                            ->with(['club', 'nationalTeam.country'])
+                        return StageTeam::where('tournament_id', $tournament->id)
+                            ->where('stage_id', $stage->id)
+                            ->with(['team.club', 'team.nationalTeam.country'])
                             ->get()
-                            ->pluck('name', 'id');
+                            ->sortBy('team.name')
+                            ->pluck('team.name', 'team_id');
                     })
-                    ->label(__('Team')),
-                TextInput::make('points')
+                    ->getOptionLabelUsing(
+                        fn($value): ?string =>
+                        StageTeam::where('team_id', $value)
+                            ->with(['team.club', 'team.nationalTeam.country'])
+                            ->first()
+                            ?->team?->name
+                    )
+                    ->required(),
+            TextInput::make('points')
                     ->numeric()
                     ->default(0),
             ]);

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['tournament_id', 'stage_id', 'user_id', 'team_id', 'points'])]
 class StagePrediction extends Model
@@ -47,6 +48,15 @@ class StagePrediction extends Model
     }
 
     /**
+     * Gets the stage winner for given prediction.
+     */
+    public function stageWinner(): HasOne
+    {
+        return $this->hasOne(StageWinner::class, 'stage_id', 'stage_id')
+            ->where('tournament_id', $this->tournament_id);
+    }
+
+    /**
      * Gets the points amassed by the user for the prediction.
      */
     public function scopeEarned($query)
@@ -61,9 +71,18 @@ class StagePrediction extends Model
     {
         return Attribute::make(
             get: fn() => StageWinner::where('tournament_id', $this->tournament_id)
-            ->where('stage_id', $this->stage_id)
-            ->where('team_id', $this->team_id)
-            ->first()
+                ->where('stage_id', $this->stage_id)
+                ->where('team_id', $this->team_id)
+                ->first()
         );
+    }
+
+    public function predictionStatus(): string
+    {
+        if (!$this->stageWinner) {
+            return 'pending';
+        }
+
+        return $this->stageWinner->team_id === $this->team_id ? 'correct' : 'incorrect';
     }
 }

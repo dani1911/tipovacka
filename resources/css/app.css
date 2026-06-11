@@ -272,6 +272,7 @@
 
     .game-view__header,
     .game-view__prediction-list,
+    .stage-winners,
     .user-list {
         padding: .5rem;
     }
@@ -329,6 +330,14 @@
         }
     }
 
+    .is-correct {
+        color: oklch(from var(--color-success) var(--accent-l) c h);
+    }
+
+    .is-incorrect {
+        color: oklch(from var(--color-error) var(--accent-l) c h);
+    }
+    
     .flash-toast {
         color: oklch(from var(--toast-color) var(--accent-l) c h);
         background-color: var(--toast-color);
@@ -393,7 +402,9 @@
         .main-content {
             padding-bottom: 1rem;
         }
-
+    }
+    
+    @media (min-width: 660px) {
         .games-list {
             display: flex;
             flex-direction: row;
@@ -403,10 +414,23 @@
         }
 
         .game-box {
+            flex: 1 0 48%;
+        }
+    }
+
+    @media (min-width: 980px) {
+        .game-box {
+            flex: 1 0 30%;
+        }
+    }
+
+    @media (min-width: 1400px) {
+        .game-box {
             flex: 1 0 21%;
         }
     }
-    
+
+    /* TODO change to container query */
     @media (max-width: 680px) {
         .table-col-fixed {
             position: sticky;

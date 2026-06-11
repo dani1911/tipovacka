@@ -138,6 +138,26 @@
             border-radius: 100px;
         }
     }
+    
+    .tabs {
+        margin-inline: auto;
+        padding-inline: .5rem;
+        gap: .5rem;
+        width: 90%;
+        text-transform: uppercase;
+    }
+
+    .tab {
+        width: 50%;
+        background-color: var(--color-secondary);
+        text-align: center;
+        padding-block: .5rem;
+        border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .muted {
+        opacity: 75%;
+    }
 
     @media (min-width: 768px) {
         .games-list {

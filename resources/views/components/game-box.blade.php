@@ -1,3 +1,4 @@
+@props(['game', 'user' => auth()->user()])
 <article class="game-box">
     <section class="game-box__header">
         <span class="badge">
@@ -22,10 +23,10 @@
                 </div>
                 @endif
                 @auth
-                <div @class([ 'game-box__prediction' , 'correct'=> $game->hasScore && $game->userPrediction?->isCorrect,
-                    'incorrect' => $game->hasScore && !$game->userPrediction?->isCorrect,
+                <div @class([ 'game-box__prediction' , 'correct'=> $game->hasScore && $game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
+                    'incorrect' => $game->hasScore && !$game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
                     ])>
-                    {{ $game->userPrediction?->home_team_score }}
+                    {{ $game->gamePredictions->firstWhere('user_id', $user?->id)?->home_team_score }}
                 </div>
                 @endauth
             </div>
@@ -42,17 +43,17 @@
                     </div>
                 @endif
                 @auth
-                    <div @class([ 'game-box__prediction' , 'correct'=> $game->hasScore && $game->userPrediction?->isCorrect,
-                        'incorrect' => $game->hasScore && !$game->userPrediction?->isCorrect,
+                    <div @class([ 'game-box__prediction' , 'correct'=> $game->hasScore && $game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
+                        'incorrect' => $game->hasScore && !$game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
                         ])>
-                        {{ $game->userPrediction?->away_team_score }}
+                        {{ $game->gamePredictions->firstWhere('user_id', $user?->id)?->away_team_score }}
                     </div>
                 @endauth
             </div>
         </a>
         @if ($game->hasScore)
             <div class="game-box__stats">
-                <span class="badge">{{ $game->correctGamePredictions }}</span> {{-- TODO count correct predictions --}}
+                <span class="badge">{{ $game->correctGamePredictions }}</span>
             </div>
         @endif
         @auth

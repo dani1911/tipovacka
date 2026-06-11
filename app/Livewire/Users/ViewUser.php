@@ -4,6 +4,7 @@ namespace App\Livewire\Users;
 
 use App\Enums\Phase;
 use App\Models\Game;
+use App\Models\StagePrediction;
 use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +18,11 @@ class ViewUser extends Component
 
     public Collection $knockoutGames;
 
+    public Collection $stagePredictions;
+
     public int $tournamentId;
+
+    public string $activeTab = 'games';
 
     public function mount(User $user)
     {
@@ -28,13 +33,19 @@ class ViewUser extends Component
 
         $this->groupGames = Game::where('tournament_id', $tournament->id)
             ->whereHas('stage', fn($q) => $q->where('phase', Phase::GROUP))
-            ->with('userPrediction')
+            ->with(['gamePredictions', 'userPrediction'])
             ->get();
 
         $this->knockoutGames = Game::where('tournament_id', $tournament->id)
             ->whereHas('stage', fn($q) => $q->knockout())
-            ->with('userPrediction')
+            ->with(['gamePredictions', 'userPrediction'])
             ->get();
+
+        $this->stagePredictions = StagePrediction::where('tournament_id', $tournament->id)
+            ->where('user_id', $this->user->id)
+            ->with(['team', 'stage', 'stageWinner'])
+            ->get()
+            ->sortBy('stage.name');
     }
 
     public function render()
@@ -47,7 +58,7 @@ class ViewUser extends Component
                 ['stagePredictions' => fn($q) => $q->where('tournament_id', $this->tournamentId)],
                 'points'
             )
-        ->find($this->user->id);
+            ->find($this->user->id);
 
         $totalPoints = ($user->game_predictions_sum_points ?? 0) + ($user->stage_predictions_sum_points ?? 0);
 
