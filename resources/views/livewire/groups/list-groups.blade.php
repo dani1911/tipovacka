@@ -20,24 +20,31 @@
             </div>
         @endif
     @endauth
-
-    <div class="groups-list relative overflow-x-auto p-0 scroll-shadows">
-        <table class="[:where(&)]:min-w-full table-fixed border-separate border-spacing-0 isolate whitespace-nowrap [&_dialog]:whitespace-normal [&_[popover]]:whitespace-normal">
+    <div
+        class="groups-list relative overflow-x-auto p-0 scroll-shadows"
+        x-data
+        x-init="
+            const check = () => $el.classList.toggle('is-overflowing', $el.scrollWidth > $el.clientWidth);
+            check();
+            new ResizeObserver(check).observe($el);"
+    >
+        <table class="w-full table-fixed border-separate border-spacing-0 isolate whitespace-nowrap [&_dialog]:whitespace-normal [&_[popover]]:whitespace-normal">
             <thead>
                 <tr>
-                    <th class="table-col-fixed left-0 py-3 px-3">{{ __('Username') }}</th>
+                    <th class="table-col-fixed w-40 left-0 py-3 px-3 text-left">{{ __('Username') }}</th>
                     @foreach ($stages as $stage)
-                        <th class="py-3 px-3">{{ $stage->name }}</th>
+                        <th class="w-40 py-3 px-3 text-left">{{ $stage->name }}</th>
                     @endforeach
-                    <th class="py-3 px-3">{{ __('Champion') }}</th>
                 </tr>
             </thead>
             <tbody>
             @foreach ($users as $user)
                 <tr>
-                    <td class="table-col-fixed left-0 py-3 px-3">{{ $user->name }}</td>
+                    <td class="table-col-fixed left-0 py-3 px-3">
+                        <x-user-name :tournament="$tournament" :user="$user" />
+                    </td>
                     @foreach ($stages as $stage)
-                        <td class="py-3 px-3">
+                        <td class="py-3 px-3 overflow-hidden text-ellipsis">
                             <span
                                 @class([
                                     'badge' => $user->stagePredictions->get($stage->id)?->isCorrect
@@ -47,18 +54,17 @@
                             </span>
                         </td>
                     @endforeach
-                        <td class="py-3 px-3">
-                            <span
-                                @class([
-                                    'badge' => $user->stagePredictions->get($finalStageId)?->isCorrect
-                                ])
-                            >
-                                {{ $user->stagePredictions->get($finalStageId)?->team?->name ?? '' }}
-                            </span>
-                        </td>
                 </tr>
             @endforeach
             </tbody>
+            <tfoot>
+                <tr>
+                    <th class="table-col-fixed left-0 py-3 px-3 text-left">{{ __('Winners') }}</th>
+                    @foreach ($stages as $stage)
+                        <th class="py-3 px-3 text-left overflow-hidden text-ellipsis">{{ $stage->stageWinner?->team?->name }}</th>
+                    @endforeach
+                </tr>
+            </tfoot>
         </table>
     </div>
 

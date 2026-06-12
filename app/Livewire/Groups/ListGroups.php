@@ -50,7 +50,8 @@ class ListGroups extends Component
                     ->distinct()
                     ->pluck('stage_id')
             )
-            ->where('phase', Phase::GROUP)
+            ->with(['stageWinner' => fn($q) => $q->where('tournament_id', $this->tournamentId)->with('team')])
+            ->whereIn('phase', [Phase::GROUP, Phase::FINAL])
             ->get();
     }
 
@@ -61,7 +62,6 @@ class ListGroups extends Component
         return view('livewire.groups.list-groups', [
             'users' => $users,
             'stages' => $this->getStages(),
-            'finalStageId' => Stage::where('phase', Phase::FINAL)->value('id'),
             'userHasPredictions' => $users->contains('id', auth()->id()),
         ]);
     }

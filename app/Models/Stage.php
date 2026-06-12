@@ -65,11 +65,11 @@ class Stage extends Model
     }
 
     /**
-     * Gets the winners of the tournament's stage.
+     * Gets the winner of the tournament's stage.
      */
-    public function stageWinners(): HasMany
+    public function stageWinner(): HasOne
     {
-        return $this->hasMany(StageWinner::class);
+        return $this->hasOne(StageWinner::class);
     }
 
     /**
