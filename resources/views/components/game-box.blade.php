@@ -53,11 +53,15 @@
         </a>
         @if ($game->hasScore)
             <div class="game-box__stats">
-                <span class="badge">{{ $game->correctGamePredictions }}</span>
+                <span
+                    @class(["badge" => $game->correctGamePredictions > 0])
+                >
+                    {{ $game->correctGamePredictions }}
+                </span>
             </div>
         @endif
         @auth
-            @if (!$game->hasDeadlinePassed())
+            @if (auth()->id() === $user->id && !$game->hasDeadlinePassed())
                 @if ($game->userPrediction)
                     <div class="game-box__action">
                         <button
