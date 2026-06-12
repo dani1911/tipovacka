@@ -71,26 +71,24 @@
     <h3 class="title-h3">{{ __('All predictions') }}</h3>
     <section class="game-view__prediction-list">
         @forelse ($predictions as $prediction)
-            <a href="{{ route('tournament.user', [$tournament, $prediction->user]) }}">
-                <div class="flex items-center py-1">
-                    <span class="flex-1">{{ $prediction->user->name }}</span>
-                    @if ($game->hasDeadlinePassed())
+            <div class="flex items-center py-1">
+                <x-user-name :tournament="$tournament" :user="$prediction->user" />
+                @if ($game->hasDeadlinePassed())
+                    <span
+                        class="inline-flex justify-center items-center w-17.5"
+                    >
                         <span
-                            class="inline-flex justify-center items-center w-17.5"
+                            @class([
+                                'badge' => $prediction->isCorrect
+                            ])
                         >
-                            <span
-                                @class([
-                                    'badge' => $prediction->isCorrect
-                                ])
-                            >
-                                {{ $prediction->home_team_score }} : {{ $prediction->away_team_score }}
-                            </span>
+                            {{ $prediction->home_team_score }} : {{ $prediction->away_team_score }}
                         </span>
-                    @else
-                        <span>? : ?</span>
-                    @endif
-                </div>
-            </a>
+                    </span>
+                @else
+                    <span>? : ?</span>
+                @endif
+            </div>
         @empty
             <p class="game-box text-center">{{ __('No predictions yet') }}</p>
         @endforelse
