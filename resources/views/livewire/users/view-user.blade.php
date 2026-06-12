@@ -36,7 +36,7 @@
         </section>
     @else
         <section class="stage-winners">
-            <table>
+            <table class="w-full">
                 <tbody>
                     @forelse ($stagePredictions as $prediction)
                         <tr>
@@ -64,8 +64,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3">
-                                <p class="text-center">{{ __('No stage predictions added yet') }}</p>
+                            <td colspan="3" class="text-center">
+                                {{ __('No stage predictions added yet') }}
                             </td>
                         </tr>
                     @endforelse

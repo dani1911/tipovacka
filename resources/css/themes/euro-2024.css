@@ -18,6 +18,7 @@
 
     .games-list,
     .game-view__prediction-list,
+    .stage-winners,
     .user-list {
         margin-inline: .5rem;
         padding-inline: .5rem;
@@ -130,21 +131,28 @@
         }
     }
 
-    .game-view__prediction-list,
-    .groups-list {
+    .game-view__prediction-list {
         .badge {
             background: white;
             color: black;
             border-radius: 100px;
         }
     }
+
+    .groups-list {
+        .badge {
+            background: white;
+            color: black;
+            border-radius: .25rem;
+        }
+    }
     
     .tabs {
         margin-inline: auto;
-        padding-inline: .5rem;
-        gap: .5rem;
         width: 90%;
         text-transform: uppercase;
+        border-radius: var(--radius) var(--radius) 0 0;
+        overflow: hidden;
     }
 
     .tab {
@@ -152,7 +160,6 @@
         background-color: var(--color-secondary);
         text-align: center;
         padding-block: .5rem;
-        border-radius: var(--radius) var(--radius) 0 0;
     }
 
     .muted {

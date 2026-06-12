@@ -23,14 +23,14 @@
 
 @layer base {
     body {
-            background-color: var(--color-background);
-            color: var(--color-text);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            font-size: 16px;
-        }
-
+        background-color: var(--color-background);
+        color: var(--color-text);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        font-size: 16px;
+    }
+        
     .page-header,
     .main-nav,
     .main-content,
@@ -430,12 +430,16 @@
         }
     }
 
-    /* TODO change to container query */
-    @media (max-width: 680px) {
-        .table-col-fixed {
-            position: sticky;
-        }
+    .groups-list {
+        container-type: inline-size;
+        container-name: groupsList;
+    }
 
+    .table-col-fixed {
+        position: sticky;
+    }
+
+    .groups-list.is-overflowing {
         .table-col-fixed::after {
             content: "";
             position: absolute;
@@ -448,15 +452,19 @@
         }
 
         table > :first-child > tr:first-of-type .table-col-fixed:after {
-            mask-image: linear-gradient(to top,
-                    black 30%,
-                    transparent 100%);
+            mask-image: linear-gradient(
+                            to top,
+                            black 30%,
+                            transparent 100%
+                        );
         }
 
         table > :last-child > tr:last-of-type .table-col-fixed:after {
-            mask-image: linear-gradient(to bottom,
-                    black 30%,
-                    transparent 100%);
+            mask-image: linear-gradient(
+                            to bottom,
+                            black 30%,
+                            transparent 100%
+                        );
         }
     }
 }
