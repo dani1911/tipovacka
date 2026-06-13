@@ -56,14 +56,14 @@ class ListGroups extends Component
     public function render()
     {
         $users = $this->getUsers();
-        $tournament = Tournament::find($this->tournamentId);
-        $hasDeadlinePassed = $tournament->rulesets->where('phase', Phase::GROUP)->first()?->hasDeadlinePassed() ?? false;
+        $tournament = Tournament::with('rulesets')->find($this->tournamentId);
+        $this->hasDeadlinePassed = $tournament->rulesets->where('phase', Phase::GROUP)->first()?->hasDeadlinePassed() ?? false;
 
         return view('livewire.groups.list-groups', [
             'users' => $users,
             'stages' => $this->getStages(),
             'tournament' => $tournament,
-            'hasDeadlinePassed' => $hasDeadlinePassed,
+            'hasDeadlinePassed' => $this->hasDeadlinePassed,
             'userHasPredictions' => $users->contains('id', auth()->id()),
         ]);
     }
