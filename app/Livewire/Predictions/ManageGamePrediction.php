@@ -75,18 +75,37 @@ class ManageGamePrediction extends Component
             return;
         }
 
-        if ($this->mode === 'create') {
-            $this->validate();
-    
-            GamePrediction::create($this->only(['game_id', 'user_id', 'home_team_score', 'away_team_score', 'winner_team_id']));
-    
-            FlashToast::success(__('Prediction added successfully.'));
-    
-            $this->dispatch('game-prediction-saved');
-    
+        $game = Game::with('stage')->findOrFail($this->game_id);
+
+        if ($game->hasDeadlinePassed()) {
+            FlashToast::error(__('The prediction deadline has passed.'));
             $this->modal('game-prediction-modal')->close();
-    
-            $this->reset(['home_team_score', 'away_team_score']);
+            return;
+        }
+
+        $this->validate();
+
+        if ($this->mode === 'create') {
+            $prediction = GamePrediction::firstOrCreate(
+                ['game_id' => $this->game_id, 'user_id' => $this->user_id],
+                $this->only([
+                    'home_team_id',
+                    'away_team_id',
+                    'home_team_score',
+                    'away_team_score',
+                    'winner_team_id'
+                ])
+            );
+
+            if ($prediction->wasRecentlyCreated) {
+                FlashToast::success(__('Prediction added successfully.'));
+                $this->dispatch('game-prediction-saved');
+                $this->modal('game-prediction-modal')->close();
+                $this->reset(['home_team_score', 'away_team_score']);
+            } else {
+                FlashToast::warning(__('You already have a prediction for this game. Try refreshing the page.'));
+                $this->modal('game-prediction-modal')->close();
+            }
         } else {
             $this->update();
         }

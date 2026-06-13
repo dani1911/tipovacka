@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Predictions;
 
+use App\Enums\Phase;
 use App\Models\Stage;
 use App\Models\StagePrediction;
 use App\Models\StageTeam;
@@ -72,6 +73,19 @@ class ManageStagePrediction extends Component
             return;
         }
 
+        $tournament = Tournament::with('rulesets')->find($this->tournamentId);
+
+        $hasDeadlinePassed = $tournament->rulesets
+            ->where('phase', Phase::GROUP)
+            ->first()
+            ?->hasDeadlinePassed() ?? false;
+
+        if ($hasDeadlinePassed) {
+            FlashToast::error(__('The prediction deadline has passed.'));
+            $this->modal('stage-prediction-modal')->close();
+            return;
+        }
+
         foreach ($this->predictions as $stageId => $teamId) {
             $prediction = StagePrediction::where([
                 'tournament_id' => $this->tournamentId,
@@ -84,7 +98,6 @@ class ManageStagePrediction extends Component
                     FlashToast::error(__('You are not authorized to update this prediction.'));
                     continue;
                 }
-                // $this->authorize('update', $prediction);
                 $prediction->update(['team_id' => $teamId]);
             } else {
                 StagePrediction::create([
@@ -94,17 +107,6 @@ class ManageStagePrediction extends Component
                     'team_id' => $teamId,
                 ]);
             }
-        }
-
-        foreach ($this->predictions as $stageId => $teamId) {
-            StagePrediction::updateOrCreate(
-                [
-                    'tournament_id' => $this->tournamentId,
-                    'stage_id' => $stageId,
-                    'user_id' => auth()->id(),
-                ],
-                ['team_id' => $teamId]
-            );
         }
 
         FlashToast::success(__('Predictions saved successfully.'));

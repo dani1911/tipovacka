@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['game_id', 'user_id', 'home_team_score', 'away_team_score', 'winner_team_id', 'points'])]
+#[Fillable(['game_id', 'user_id', 'home_team_id', 'away_team_id', 'home_team_score', 'away_team_score', 'winner_team_id', 'points'])]
 class GamePrediction extends Model
 {
     use HasFactory;
