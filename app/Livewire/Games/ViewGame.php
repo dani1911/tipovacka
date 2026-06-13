@@ -11,17 +11,27 @@ class ViewGame extends Component
 {
     public Game $game;
 
+    public Tournament $tournament;
+
     protected $listeners = [
         'game-prediction-saved' => '$refresh',
     ];
+
+    public function boot() {
+        $param = request()->route('tournament');
+
+        if (!$param) return;
+
+        $this->tournament = $param instanceof Tournament
+            ? $param
+            : Tournament::where('slug', $param)->first();
+    }    
 
     public function mount(Game $game)
     {
         $this->game = $game;
 
-        $tournament = Tournament::where('slug', request()->route('tournament'))->firstOrFail();
-
-        abort_if($game->tournament_id !== $tournament->id, 404);
+        abort_if($game->tournament_id !== $this->tournament->id, 404);
     }
 
     public function render()

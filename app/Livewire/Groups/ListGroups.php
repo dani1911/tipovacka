@@ -5,6 +5,7 @@ namespace App\Livewire\Groups;
 use App\Enums\Phase;
 use App\Models\Stage;
 use App\Models\StageTeam;
+use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
@@ -21,10 +22,7 @@ class ListGroups extends Component
 
     public function mount()
     {
-        $tournament = view()->shared('tournament');
-
-        $this->tournamentId = $tournament->id;
-        $this->hasDeadlinePassed = $tournament->rulesets->where('phase', Phase::GROUP)->first()?->hasDeadlinePassed() ?? false;
+        $this->tournamentId = view()->shared('tournament')->id;
     }
 
     private function getUsers(): Collection
@@ -58,10 +56,14 @@ class ListGroups extends Component
     public function render()
     {
         $users = $this->getUsers();
+        $tournament = Tournament::find($this->tournamentId);
+        $hasDeadlinePassed = $tournament->rulesets->where('phase', Phase::GROUP)->first()?->hasDeadlinePassed() ?? false;
 
         return view('livewire.groups.list-groups', [
             'users' => $users,
             'stages' => $this->getStages(),
+            'tournament' => $tournament,
+            'hasDeadlinePassed' => $hasDeadlinePassed,
             'userHasPredictions' => $users->contains('id', auth()->id()),
         ]);
     }
