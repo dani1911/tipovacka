@@ -35,16 +35,14 @@
                 @auth
                     @if (!$game->userPrediction)
                         @if (!$game->hasDeadlinePassed())
-                            <div class="">
-                                <button
-                                    wire:click="$dispatch('gamePredictionModal', {
-                                                game_id: {{ $game->id }},
-                                                action: 'create'
-                                            })"
-                                    class="btn flex items-center gap-1 text-sm">
-                                    <x-tabler-new-section /> <span>{{ __('Add prediction') }}</span>
-                                </button>
-                            </div>
+                            <button
+                                wire:click="$dispatch('gamePredictionModal', {
+                                            game_id: {{ $game->id }},
+                                            action: 'create'
+                                        })"
+                                class="btn flex items-center gap-1 text-sm whitespace-nowrap">
+                                <x-tabler-new-section /> <span>{{ __('Add prediction') }}</span>
+                            </button>
                         @endif
                     @else
                         <div

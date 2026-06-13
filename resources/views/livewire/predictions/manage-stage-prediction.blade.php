@@ -24,20 +24,6 @@
                             </flux:input.group>
                         </field>
                     @endforeach
-                    <field class="w-full flex justify-between items-center gap-3">
-                        <flux:input.group>
-                            <div class="flex items-center px-4 text-sm whitespace-nowrap bg-zinc-800/5 dark:bg-white/20 border-zinc-200 dark:border-white/10 border-s border-t border-b shadow-xs text-white">{{ __('Champion') }}</div>
-                            <select
-                                wire:model="predictions.18"
-                                class="bg-white w-full p-2"    
-                            >
-                                <option value="null">{{ __('Select team') }}</option>
-                                @foreach ($stageTeams as $team)
-                                    <option value="{{ $team->team->id }}">{{ $team->team->name }}</option>
-                                @endforeach
-                            </select>
-                        </flux:input.group>
-                    </field>
                 @endif
             </div>
             <div class="flex w-full justify-end mt-4">

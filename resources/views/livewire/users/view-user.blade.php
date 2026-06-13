@@ -30,10 +30,10 @@
             @empty
                 <p class="game-box text-center">{{ __('No games added yet') }}</p>
             @endforelse
-            @auth
-                <livewire:predictions.manage-game-prediction />
-            @endauth
         </section>
+        @auth
+            <livewire:predictions.manage-game-prediction />
+        @endauth
     @else
         <section class="stage-winners">
             <table class="w-full">

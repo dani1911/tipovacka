@@ -22,11 +22,12 @@
     @endauth
     <div
         class="groups-list relative overflow-x-auto p-0 scroll-shadows"
-        x-data
+        wire:key="{{ rand() }}"
+        x-data="{ check() { $el.classList.toggle('is-overflowing', $el.scrollWidth > $el.clientWidth) } }"
         x-init="
-            const check = () => $el.classList.toggle('is-overflowing', $el.scrollWidth > $el.clientWidth);
             check();
-            new ResizeObserver(check).observe($el);"
+            new ResizeObserver(() => check()).observe($el);
+        "
     >
         <table class="w-full table-fixed border-separate border-spacing-0 isolate whitespace-nowrap [&_dialog]:whitespace-normal [&_[popover]]:whitespace-normal">
             <thead>
