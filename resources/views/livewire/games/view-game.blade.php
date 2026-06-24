@@ -87,6 +87,21 @@
                     <div class="flex items-center py-1">
                         <x-user-name :tournament="$tournament" :user="$prediction->user" />
                         @if ($game->hasDeadlinePassed())
+                            @if (!$game->homeTeam || !$game->awayTeam)
+                                <span class="inline-flex justify-center items-center">
+                                    <img
+                                        src="{{ asset('storage/' . $prediction->homeTeam->image) }}"
+                                        alt="{{ $prediction->winnerTeam->name }} flag"
+                                        class="game-view__flag mr-2"
+                                    >
+                                    vs
+                                    <img
+                                        src="{{ asset('storage/' . $prediction->awayTeam->image) }}"
+                                        alt="{{ $prediction->winnerTeam->name }} flag"
+                                        class="game-view__flag ml-2"
+                                    >
+                                </span>
+                            @endif
                             <span class="inline-flex justify-center items-center w-17.5">
                                 <span
                                     @class([
@@ -111,7 +126,7 @@
                                 </div>
                             </div>
                         @else
-                            <span>? : ?</span>
+                            <span class="w-9 ml-3 text-center">? : ?</span>
                         @endif
                     </div>
                 @endforeach

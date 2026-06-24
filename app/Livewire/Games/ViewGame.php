@@ -53,7 +53,8 @@ class ViewGame extends Component
             ->get();
 
         [$validPredictions, $invalidPredictions] = $predictions->partition(
-            fn($prediction) => ($prediction->home_team_id === $this->game->home_team_id)
+            fn($prediction) => !$this->game->home_team_id || !$this->game->away_team_id
+                || ($prediction->home_team_id === $this->game->home_team_id)
                 && ($prediction->away_team_id === $this->game->away_team_id)
         );
 
