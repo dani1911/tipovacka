@@ -10,7 +10,9 @@
                 <field class="flex flex-col justify-between items-center">
                     <label class="flex-col">
                         <div class="game-prediction__flag">
-                            <img src="{{ asset('storage/' . $home_team_image) }}" alt="{{ $home_team_name }}">
+                            @if (isset($home_team_image))
+                                <img src="{{ asset('storage/' . $home_team_image) }}" alt="{{ $home_team_name }}">
+                            @endif
                         </div>
                         <div class="game-prediction__team-name text-center mt-1">{{ $home_team_name }}</div>
                     </label>
@@ -27,7 +29,9 @@
                 <field class="flex flex-col justify-between items-center">
                     <label class="flex-col">
                         <div class="game-prediction__flag">
-                            <img src="{{ asset('storage/' . $away_team_image) }}" alt="{{ $away_team_name }}">
+                            @if (isset($away_team_image))
+                                <img src="{{ asset('storage/' . $away_team_image) }}" alt="{{ $away_team_name }}">
+                            @endif
                         </div>
                         <div class="game-prediction__team-name text-center mt-1">{{ $away_team_name }}</div>
                     </label>
@@ -42,7 +46,8 @@
                 </field>
             </div>
             @if($is_knockout && isset($home_team_score, $away_team_score) && $home_team_score === $away_team_score)
-                <flux:select wire:model="winner_team_id" label="Winner">
+                <p class="text-accent pl-2 mt-2">{{ __('Advancing team') }}</p>
+                <flux:select wire:model="winner_team_id">
                     <flux:select.option :value="$home_team_id">{{ $home_team_name }}</flux:select.option>
                     <flux:select.option :value="$away_team_id">{{ $away_team_name }}</flux:select.option>
                 </flux:select>

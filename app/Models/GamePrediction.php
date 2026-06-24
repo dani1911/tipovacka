@@ -30,6 +30,22 @@ class GamePrediction extends Model
     }
 
     /**
+     * Gets the home team for the game.
+     */
+    public function homeTeam(): BelongsTo
+    {
+        return $this->belongsTo(Team::class, 'home_team_id');
+    }
+
+    /**
+     * Gets the away team for the game.
+     */
+    public function awayTeam(): BelongsTo
+    {
+        return $this->belongsTo(Team::class, 'away_team_id');
+    }
+
+    /**
      * Gets the team that the user predicted to win.
      */
     public function winnerTeam(): BelongsTo
@@ -58,7 +74,7 @@ class GamePrediction extends Model
     }
 
     /**
-     * Determines if the prediction is correct.
+     * Determines if the prediction score is correct.
      */
     protected function isCorrect(): Attribute
     {
@@ -66,6 +82,18 @@ class GamePrediction extends Model
             get: fn() => $this->game->home_team_score !== null
                 && $this->game->home_team_score === $this->home_team_score
                 && $this->game->away_team_score === $this->away_team_score
+        );
+    }
+
+    /**
+     * Determines if the knockout prediction is correct.
+     */
+    protected function areTeamsCorrect(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->home_team_id !== null
+                && $this->game->home_team_id === $this->home_team_id
+                && $this->game->away_team_id === $this->away_team_id
         );
     }
 

@@ -34,6 +34,8 @@
     "Add prediction": "Pridať tip",
     "My prediction": "Môj tip",
     "All predictions": "Všetky tipy",
+    "Predictions": "Tipy",
+    "Invalid predictions": "Nesúťažné tipy",
     "No predictions yet": "Zatiaľ neboli pridané žiadne tipy",
     "Group & tournament winners": "Víťazi skupín a turnaja",
     "Add predictions": "Pridať tipy",
@@ -87,5 +89,12 @@
     "Users": "Tipéri",
     "Group winners": "Víťazi skupín",
     "Winners": "Víťazi",
-    "No stage predictions added yet": "Zatiaľ neboli pridaní žiadni víťazi skupín"
+    "No stage predictions added yet": "Zatiaľ neboli pridaní žiadni víťazi skupín",
+    "Advancing team": "Postupujúci tím",
+    "Group stage": "Skupinová fáza",
+    "Knockout stage": "Vyraďovačka",
+    "Create bracket": "Vytvoriť pavúka",
+    "Bracket created successfully.": "Pavúk úspešne vytvorený",
+    "You already have a bracket for this tournament.": "Pavúk už bol vytvorený. Skús znova načítať stránku",
+    "No knockout games found for this tournament yet.": "Tento turnaj zatiaľ nemá vytvorené zápasy pre vyraďovačku."
 }

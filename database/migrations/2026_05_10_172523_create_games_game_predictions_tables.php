@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tournament_id')->constrained();
-            $table->string('game_number', length: 6);
+            $table->tinyTnteger('game_number', length: 3);
             $table->foreignId('stage_id')->constrained();
             $table->foreignId('home_team_id')->constrained('teams', 'id')->nullable();
             $table->foreignId('away_team_id')->constrained('teams', 'id')->nullable();

@@ -36,8 +36,20 @@
 
     .games-list {
         gap: .325rem;
+        padding-bottom: .5rem;
     }
-        
+    
+    .button-container {
+        margin-inline: 1rem;
+        gap: .325rem;
+    }
+
+    .btn {
+        background-color: var(--color-primary);
+        color: black;
+        text-transform: uppercase;
+    }
+
     .game-box,
     .groups-list,
     .table-col-fixed {
@@ -130,9 +142,5 @@
         background-color: var(--color-secondary);
         text-align: center;
         padding-block: .5rem;
-    }
-
-    .muted {
-        opacity: 75%;
     }
 }

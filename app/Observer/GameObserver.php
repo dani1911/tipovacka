@@ -5,16 +5,20 @@ namespace App\Observer;
 use App\Models\Game;
 use App\Models\GameAdvancement;
 use App\Models\GamePrediction;
+use App\Traits\HandlesBracketAdvancement;
 
 class GameObserver
 {
+    use HandlesBracketAdvancement;
+
     /**
      * Handle the Game "updated" event.
      */
     public function updated(Game $game): void
     {
         $this->handlePoints($game);
-        $this->handleAdvancements($game);
+        $this->advanceBracket($game);
+        // $this->handleAdvancements($game);
     }
 
     /**

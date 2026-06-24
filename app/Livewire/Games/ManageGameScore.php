@@ -4,6 +4,7 @@ namespace App\Livewire\Games;
 
 use App\Models\Game;
 use Livewire\Attributes\Validate;
+use Livewire\Component;
 
 class ManageGameScore extends Component
 {

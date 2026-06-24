@@ -1,4 +1,4 @@
-@props(['game', 'user' => auth()->user()])
+@props(['game', 'user' => auth()->user(), 'showButtons' => false,])
 <article class="game-box">
     <section class="game-box__header">
         <span class="badge">
@@ -11,11 +11,23 @@
     <section class="game-box__body">
         <a href="{{ route('tournament.game', [$game->tournament, $game]) }}" class="game-box__game">
             <div class="game-box__row">
-                <div class="game-box__team">
-                    <div class="game-box__flag">
-                        <img src="{{ asset('storage/' . $game->homeTeam->image) }}" alt="{{ $game->homeTeam->name }}">
-                    </div>
-                    <span title="{{ $game->homeTeam->name }}">{{ $game->homeTeam->name }}</span>
+                <div 
+                    @class([
+                        "game-box__team",
+                        "muted" => $game->hasScore && $game->winner_team_id !== $game->home_team_id
+                        ])
+                >
+                    @if (isset($game->homeTeam))
+                        <div class="game-box__flag">
+                            <img src="{{ asset('storage/' . $game->homeTeam->image) }}" alt="{{ $game->homeTeam->name }}">
+                        </div>
+                        <span title="{{ $game->homeTeam->name }}">{{ $game->homeTeam->name }}</span>
+                    @else
+                        <div class="game-box__flag bg-gray-100 text-gray-500">
+                            <x-tabler-question-mark />
+                        </div>
+                        <span>TBD</span>
+                    @endif
                 </div>
                 @if ($game->hasScore)
                 <div class="game-box__score">
@@ -31,11 +43,23 @@
                 @endauth
             </div>
             <div class="game-box__row">
-                <div class="game-box__team">
-                    <div class="game-box__flag">
-                        <img src="{{ asset('storage/' . $game->awayTeam->image) }}" alt="{{ $game->awayTeam->name }}">
-                    </div>
-                    <span title="{{ $game->awayTeam->name }}">{{ $game->awayTeam->name }}</span>
+                <div 
+                    @class([
+                        "game-box__team",
+                        "muted" => $game->hasScore && $game->winner_team_id !== $game->away_team_id
+                        ])
+                >
+                    @if (isset($game->awayTeam))
+                        <div class="game-box__flag">
+                            <img src="{{ asset('storage/' . $game->awayTeam->image) }}" alt="{{ $game->awayTeam->name }}">
+                        </div>
+                        <span title="{{ $game->awayTeam->name }}">{{ $game->awayTeam->name }}</span>
+                    @else
+                        <div class="game-box__flag bg-gray-100 text-gray-500">
+                            <x-tabler-question-mark />
+                        </div>
+                        <span>TBD</span>
+                    @endif
                 </div>
                 @if ($game->hasScore)
                     <div class="game-box__score">
@@ -61,7 +85,7 @@
             </div>
         @endif
         @auth
-            @if (auth()->id() === $user->id && !$game->hasDeadlinePassed())
+            @if (auth()->id() === $user->id && !$game->hasDeadlinePassed() && $showButtons)
                 @if ($game->userPrediction)
                     <div class="game-box__action">
                         <button
@@ -69,7 +93,7 @@
                                         game_id: {{ $game->id }},
                                         action: 'edit'
                                     })"
-                            class="btn">
+                        >
                             <x-tabler-edit />
                         </button>
                     </div>
@@ -80,7 +104,7 @@
                                         game_id: {{ $game->id }},
                                         action: 'create'
                                     })"
-                            class="btn">
+                        >
                             <x-tabler-new-section />
                         </button>
                     </div>

@@ -18,13 +18,13 @@
             label="{{ __('Groups') }}"
             icon="heroicon-o-trophy"
         />
-        {{-- <x-nav-item
+        <x-nav-item
             route="knockout"
             :tournament="$tournament ?? null"
             label="{{ __('Bracket') }}"
             icon="tabler-sitemap"
             class="rotate-90"
-        /> --}}
+        />
         <x-nav-item
             route="users"
             :tournament="$tournament ?? null"

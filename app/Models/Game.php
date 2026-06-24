@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Phase;
 use App\Models\Configuration;
 use App\Models\GameAdvancement;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -72,13 +73,16 @@ class Game extends Model
     }
 
     /**
-     * Gets the advancements
+     * Gets the source games.
      */
     public function advancements(): HasMany
     {
         return $this->hasMany(GameAdvancement::class, 'source_game_id');
     }
 
+    /**
+     * Gets the destination games.
+     */
     public function incomingAdvancements(): HasMany
     {
         return $this->hasMany(GameAdvancement::class, 'destination_game_id');
@@ -163,8 +167,12 @@ class Game extends Model
      */
     public function hasDeadlinePassed(): bool
     {
+        $phase = $this->stage->phase;
+
+        $lookupPhase = $phase->isKnockout() ? Phase::KNOCKOUT : $phase;
+
         return $this->tournament->rulesets
-            ->where('phase', $this->stage->phase)
+            ->where('phase', $lookupPhase)
             ->first()
             ?->hasDeadlinePassed() ?? false;
     }

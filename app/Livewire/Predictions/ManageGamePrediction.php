@@ -49,17 +49,17 @@ class ManageGamePrediction extends Component
             'awayTeam.club',
         ])->findOrFail($game_id);
 
-        $this->home_team_id = $game->homeTeam->id;
-        $this->home_team_name = $game->homeTeam->name;
-        $this->home_team_image = $game->homeTeam->image;
-        $this->away_team_id = $game->awayTeam->id;
-        $this->away_team_name = $game->awayTeam->name;
-        $this->away_team_image = $game->awayTeam->image;
-        $this->is_knockout = $game->stage->phase === \App\Enums\Phase::KNOCKOUT;
-
         $this->gamePrediction = GamePrediction::where('game_id', $game_id)
             ->where('user_id', $this->user_id)
             ->first();
+
+        $this->home_team_id = $game->homeTeam?->id ?? $this->gamePrediction->homeTeam?->id;
+        $this->home_team_name = $game->homeTeam?->name ?? $this->gamePrediction->homeTeam?->name;
+        $this->home_team_image = $game->homeTeam?->image ?? $this->gamePrediction->homeTeam?->image;
+        $this->away_team_id = $game->awayTeam?->id ?? $this->gamePrediction->awayTeam?->id;
+        $this->away_team_name = $game->awayTeam?->name ?? $this->gamePrediction->awayTeam?->name;
+        $this->away_team_image = $game->awayTeam?->image ?? $this->gamePrediction->awayTeam?->image;
+        $this->is_knockout = $game->stage->phase === \App\Enums\Phase::KNOCKOUT;
 
         $this->home_team_score = $this->gamePrediction?->home_team_score;
         $this->away_team_score = $this->gamePrediction?->away_team_score;
@@ -68,6 +68,9 @@ class ManageGamePrediction extends Component
         $this->modal('game-prediction-modal')->show();
     }
 
+    /**
+     * Saves user's game prediction.
+     */
     public function save()
     {
         if (!$this->user_id) {
@@ -111,6 +114,9 @@ class ManageGamePrediction extends Component
         }
     }
 
+    /**
+     * Updates existing game prediction.
+     */
     public function update()
     {
         if ($this->gamePrediction->user_id !== $this->user_id) {
@@ -120,6 +126,8 @@ class ManageGamePrediction extends Component
 
         if ($this->mode === 'edit') {
             $this->validate();
+
+            $this->winner_team_id = $this->resolveWinner();
 
             $this->gamePrediction->update(
                 $this->only(['home_team_score', 'away_team_score', 'winner_team_id'])
@@ -133,6 +141,22 @@ class ManageGamePrediction extends Component
 
             $this->reset(['home_team_score', 'away_team_score']);
         }
+    }
+
+    /**
+     * Determines advancing team for knockout round
+     */
+    private function resolveWinner(): ?int
+    {
+        if ($this->home_team_score > $this->away_team_score) {
+            return $this->home_team_id;
+        }
+
+        if ($this->away_team_score > $this->home_team_score) {
+            return $this->away_team_id;
+        }
+
+        return $this->winner_team_id ?: null;
     }
 
     public function render()

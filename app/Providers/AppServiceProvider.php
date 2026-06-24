@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Configuration;
 use App\Models\Game;
+use App\Models\GamePrediction;
 use App\Models\StageWinner;
+use App\Observer\ConfigurationObserver;
 use App\Observer\GameObserver;
+use App\Observer\GamePredictionObserver;
 use App\Observer\StageWinnerObserver;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
@@ -44,7 +48,9 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
+        Configuration::observe(ConfigurationObserver::class);
         Game::observe(GameObserver::class);
+        GamePrediction::observe(GamePredictionObserver::class);
         StageWinner::observe(StageWinnerObserver::class);
     }
 }

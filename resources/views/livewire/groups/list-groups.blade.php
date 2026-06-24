@@ -32,7 +32,7 @@
         <table class="w-full table-fixed border-separate border-spacing-0 isolate whitespace-nowrap [&_dialog]:whitespace-normal [&_[popover]]:whitespace-normal">
             <thead>
                 <tr>
-                    <th class="table-col-fixed w-40 left-0 py-3 px-3 text-left">{{ __('Username') }}</th>
+                    <th class="table-col-fixed w-33 left-0 py-3 px-3 text-left">{{ __('Username') }}</th>
                     @foreach ($stages as $stage)
                         <th class="w-40 py-3 px-3 text-left">{{ $stage->name }}</th>
                     @endforeach

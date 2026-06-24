@@ -2,7 +2,7 @@
     <h3 class="title-h3">{{ __('Group stage games') }}</h3>
     <section class="games-list">
         @forelse ($games as $game)
-            <x-game-box :game="$game" />
+            <x-game-box :game="$game" :showButtons="true" />
         @empty
             <p>{{ __('No games added yet') }}</p>
         @endforelse

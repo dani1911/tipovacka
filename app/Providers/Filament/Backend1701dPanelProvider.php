@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\ConfigWidget;
 use App\Http\Middleware\RedirectIfNotAdmin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
@@ -42,6 +43,7 @@ class Backend1701dPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
+                ConfigWidget::class,
                 FilamentInfoWidget::class,
             ])
             ->plugins([

@@ -12,14 +12,17 @@ class Configuration extends Model
 
     /**
      * Gets the value of a configuration setting by its key.
-     *
-     * @param string $key The key of the configuration setting.
-     * @param mixed $default The default value to return if the key is not found.
-     * 
-     * @return mixed The value of the configuration setting, or the default value if not found.
      */
-    public static function get($key, $default = null)
+    public static function get(string $key, mixed $default = null): mixed
     {
-        return static::where('key', '=', $key)->value('value') ?? $default;
+        return static::where('key', $key)->value('value') ?? $default;
+    }
+
+    /**
+     * Sets a new configuration key => value pair.
+     */
+    public static function set(string $key, mixed $value): void
+    {
+        static::updateOrCreate(['key' => $key], ['value' => $value]);
     }
 }
