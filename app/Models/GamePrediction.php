@@ -114,4 +114,16 @@ class GamePrediction extends Model
         static::creating($callback);
         static::updating($callback);
     }
+
+    /**
+     * Gets the id for the losing team.
+     */
+    public function getLoser(): ?int
+    {
+        if (!$this->winner_team_id) return null;
+
+        return $this->winner_team_id === $this->home_team_id
+            ? $this->away_team_id
+            : $this->home_team_id;
+    }
 }
