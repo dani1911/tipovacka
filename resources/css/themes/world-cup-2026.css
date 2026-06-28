@@ -126,6 +126,10 @@
         }
     }
 
+    .game-view__flag {
+        width: 1.5rem;
+    }
+
     .game-prediction-modal,
     .stage-prediction-modal {
         background-color: var(--color-background);

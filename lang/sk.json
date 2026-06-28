@@ -97,5 +97,6 @@
     "Bracket created successfully.": "Pavúk úspešne vytvorený",
     "You already have a bracket for this tournament.": "Pavúk už bol vytvorený. Skús znova načítať stránku",
     "No knockout games found for this tournament yet.": "Tento turnaj zatiaľ nemá vytvorené zápasy pre vyraďovačku.",
-    "User hasn't set up his bracket yet.": "Zatiaľ nebol vytvorený pavúk."
+    "User hasn't set up his bracket yet.": "Zatiaľ nebol vytvorený pavúk.",
+    "Profile": "Profil"
 }

@@ -16,7 +16,7 @@ function initKnockoutBracket(scrollCont) {
             col.getBoundingClientRect().right >
             scrollCont.getBoundingClientRect().left
         ) {
-            col.style.maxHeight = "2000px";
+            col.style.maxHeight = "2200px";
         }
     }
 
