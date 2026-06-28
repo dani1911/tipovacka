@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Predictions;
 
+use App\Enums\Phase;
 use App\Models\Game;
 use App\Models\GamePrediction;
 use App\Support\FlashToast;
@@ -59,11 +60,13 @@ class ManageGamePrediction extends Component
         $this->away_team_id = $game->awayTeam?->id ?? $this->gamePrediction->awayTeam?->id;
         $this->away_team_name = $game->awayTeam?->name ?? $this->gamePrediction->awayTeam?->name;
         $this->away_team_image = $game->awayTeam?->image ?? $this->gamePrediction->awayTeam?->image;
-        $this->is_knockout = $game->stage->phase === \App\Enums\Phase::KNOCKOUT;
+        $this->is_knockout = in_array($game->stage->phase, [Phase::KNOCKOUT, Phase::FINAL, Phase::THIRDPLACE]);
 
         $this->home_team_score = $this->gamePrediction?->home_team_score;
         $this->away_team_score = $this->gamePrediction?->away_team_score;
-        $this->winner_team_id = $this->gamePrediction?->winner_team_id ?? 0;
+        $this->winner_team_id = $this->gamePrediction?->winner_team_id
+            ?? $this->home_team_id
+            ?? 0;
 
         $this->modal('game-prediction-modal')->show();
     }
