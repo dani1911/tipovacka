@@ -42,6 +42,11 @@
                     <li class="sub-nav-item">
                         <a href="{{ route('tournaments') }}" class="sub-nav-link">{{ __('Previous tournaments') }}</a>
                     </li>
+                    @if (isset($tournament))
+                        <li class="sub-nav-item">
+                            <a href="{{ route('tournament.user', [$tournament, auth()->id()]) }}" class="sub-nav-link">{{ __('Profile') }}</a>
+                        </li>
+                    @endif
                     {{-- <li class="sub-nav-item">
                         <a href="" class="sub-nav-link">{{ __('Settings') }}</a>
                     </li> --}}
