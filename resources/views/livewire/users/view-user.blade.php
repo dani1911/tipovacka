@@ -113,25 +113,25 @@
         @else
             <div
                 x-data
-                x-init="initKnockoutBracket($el.querySelector(':scope > div'))"
+                x-init="initKnockoutBracket($el.querySelector(':scope > section > *'))"
                 class="knockout-bracket-container flex-1 flex flex-col"
             >
-                <div class="overflow-x-scroll flex-1">
+                <div class="overflow-x-auto flex-1">
                     <section class="flex gap-2 items-stretch">
                         @foreach ($gamesByStage as $stageGames)
                             <div class="knockout-bracket-stage-column flex flex-col gap-1 justify-around">
                                 @foreach ($stageGames as $game)
-                                    <x-game-prediction-box :gamePrediction="$game" :eliminatedTeamIds="$eliminatedTeamIds" />
+                                    <x-game-prediction-box :gamePrediction="$game" :user="$user" :eliminatedTeamIds="$eliminatedTeamIds" />
                                 @endforeach
                             </div>
                         @endforeach
                         <div class="knockout-bracket-stage-column flex flex-col gap-1 justify-around relative">
                             @if (isset($finalGame[0]))
-                                <x-game-prediction-box :gamePrediction="$finalGame[0]" :eliminatedTeamIds="$eliminatedTeamIds" />
+                                <x-game-prediction-box :gamePrediction="$finalGame[0]" :user="$user" :eliminatedTeamIds="$eliminatedTeamIds" />
                             @endif
                             @if (isset($bronzeGame[0]))
                                 <div class="absolute mt-[165%] left-0">
-                                    <x-game-prediction-box :gamePrediction="$bronzeGame[0]" :eliminatedTeamIds="$eliminatedTeamIds" />
+                                    <x-game-prediction-box :gamePrediction="$bronzeGame[0]" :user="$user" :eliminatedTeamIds="$eliminatedTeamIds" />
                                 </div>
                             @endif
                         </div>

@@ -23,12 +23,6 @@ class ViewUser extends Component
 
     public Collection $groupGames;
 
-    public Collection $knockoutPredictions;
-
-    public Collection $finalGame;
-
-    public Collection $bronzeGame;
-
     public Collection $stagePredictions;
 
     public int $tournamentId;
@@ -60,34 +54,6 @@ class ViewUser extends Component
             ->with(['gamePredictions', 'userPrediction'])
             ->get();
 
-        $with = [
-            'game',
-            'game.stage',
-            'homeTeam.club',
-            'homeTeam.nationalTeam.country',
-            'awayTeam.club',
-            'awayTeam.nationalTeam.country',
-        ];
-
-        $this->knockoutPredictions = GamePrediction::where('user_id', $user->id)
-            ->whereHas('game', fn($q) => $q->where('tournament_id', $tournament->id))
-            ->whereHas('game.stage', fn($q) => $q->where('phase', Phase::KNOCKOUT))
-            ->with($with)
-            ->get()
-            ->sortBy(fn($prediction) => $prediction->game->game_number);
-
-        $this->finalGame = GamePrediction::where('user_id', $user->id)
-            ->whereHas('game', fn($q) => $q->where('tournament_id', $tournament->id))
-            ->whereHas('game.stage', fn($q) => $q->where('phase', Phase::FINAL))
-            ->with($with)
-            ->get();
-
-        $this->bronzeGame = GamePrediction::where('user_id', $user->id)
-            ->whereHas('game', fn($q) => $q->where('tournament_id', $tournament->id))
-            ->whereHas('game.stage', fn($q) => $q->where('phase', Phase::THIRDPLACE))
-            ->with($with)
-            ->get();
-
         $this->stagePredictions = StagePrediction::where('tournament_id', $tournament->id)
             ->where('user_id', $this->user->id)
             ->with(['team', 'stage', 'stageWinner'])
@@ -97,11 +63,6 @@ class ViewUser extends Component
         $ruleset = $tournament->rulesets->where('phase', Phase::KNOCKOUT)->first();
 
         $this->hasDeadlinePassed = ($ruleset?->hasDeadlinePassed() ?? false);
-
-        $this->hasBracket = GamePrediction::where('user_id', auth()->id())
-            ->whereHas('game', fn($q) => $q->where('tournament_id', $tournament->id))
-            ->whereHas('game.stage', fn($q) => $q->where('phase', Phase::KNOCKOUT))
-            ->exists();
     }
 
     public function createBracket(): void
@@ -126,6 +87,44 @@ class ViewUser extends Component
 
     public function render()
     {
+        $tournament = Tournament::find($this->tournamentId);
+
+        $with = [
+            'game',
+            'game.stage',
+            'homeTeam.club',
+            'homeTeam.nationalTeam.country',
+            'awayTeam.club',
+            'awayTeam.nationalTeam.country',
+        ];
+
+        $knockoutPredictions = GamePrediction::where('user_id', $this->user->id)
+            ->whereHas('game', fn($q) => $q->where('tournament_id', $tournament->id))
+            ->whereHas('game.stage', fn($q) => $q->where('phase', Phase::KNOCKOUT))
+            ->with($with)
+            ->get()
+            ->sortBy(fn($prediction) => $prediction->game->game_number);
+
+        $finalGame = GamePrediction::where('user_id', $this->user->id)
+            ->whereHas('game', fn($q) => $q->where('tournament_id', $tournament->id))
+            ->whereHas('game.stage', fn($q) => $q->where('phase', Phase::FINAL))
+            ->with($with)
+            ->get();
+
+        $bronzeGame = GamePrediction::where('user_id', $this->user->id)
+            ->whereHas('game', fn($q) => $q->where('tournament_id', $tournament->id))
+            ->whereHas('game.stage', fn($q) => $q->where('phase', Phase::THIRDPLACE))
+            ->with($with)
+            ->get();
+
+        $this->hasBracket = $knockoutPredictions->isNotEmpty();
+
+        $gamesByStage = $knockoutPredictions
+            ->sortBy(fn($prediction) => $prediction->game->stage->order)
+            ->groupBy(fn($prediction) => $prediction->game->stage_id);
+
+        $eliminatedTeamIds = $this->resolveEliminatedTeams($knockoutPredictions);
+
         $isGroupPhase = $this->activeStage === Phase::GROUP->value;
 
         $knockoutPhaseValues = array_map(fn($p) => $p->value, Phase::knockoutPhases());
@@ -200,13 +199,15 @@ class ViewUser extends Component
 
         $totalPoints = ($user->game_predictions_sum_points ?? 0) + ($user->stage_predictions_sum_points ?? 0);
 
-        $gamesByStage = $this->knockoutPredictions
-            ->sortBy(fn ($prediction) => $prediction->game->stage->order)
-            ->groupBy(fn ($prediction) => $prediction->game->stage_id);
-
-        $eliminatedTeamIds = $this->resolveEliminatedTeams($this->knockoutPredictions);
-
-        return view('livewire.users.view-user', compact('user', 'totalPoints', 'gamesByStage', 'eliminatedTeamIds'));
+        return view('livewire.users.view-user', compact(
+                'user',
+                'totalPoints',
+                'gamesByStage',
+                'bronzeGame',
+                'finalGame',
+                'eliminatedTeamIds'
+            )
+        );
     }
 
     /**
