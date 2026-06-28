@@ -1,7 +1,7 @@
 <div class="flex flex-col h-full">
     <h3 class="title-h3">{{ __('Knockout bracket') }}</h3>
     <div class="knockout-bracket-container flex-1 flex flex-col">
-        <div class="overflow-x-scroll flex-1">
+        <div class="overflow-x-auto flex-1">
             <section class="flex gap-2 items-stretch">
                 @foreach ($gamesByStage as $stageGames)
                     <div class="knockout-bracket-stage-column flex flex-col gap-1 justify-around">

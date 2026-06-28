@@ -1,7 +1,7 @@
 @props([
     'gamePrediction',
     'eliminatedTeamIds' => [],
-    'user' => auth()->user(),
+    'user',
 ])
 <article 
     @class([

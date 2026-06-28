@@ -14,7 +14,7 @@
                 <div 
                     @class([
                         "game-box__team",
-                        "muted" => $game->hasScore && $game->winner_team_id !== $game->home_team_id
+                        "muted" => $game->stage->phase->isKnockout() && $game->hasScore && $game->winner_team_id !== $game->home_team_id
                         ])
                 >
                     @if (isset($game->homeTeam))
@@ -46,7 +46,7 @@
                 <div 
                     @class([
                         "game-box__team",
-                        "muted" => $game->hasScore && $game->winner_team_id !== $game->away_team_id
+                        "muted" => $game->stage->phase->isKnockout() && $game->hasScore && $game->winner_team_id !== $game->away_team_id
                         ])
                 >
                     @if (isset($game->awayTeam))

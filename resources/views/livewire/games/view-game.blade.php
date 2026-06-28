@@ -86,22 +86,22 @@
                 @foreach ($validPredictions as $prediction)
                     <div class="flex items-center py-1">
                         <x-user-name :tournament="$tournament" :user="$prediction->user" />
-                        @if ($game->hasDeadlinePassed())
-                            @if (!$game->homeTeam || !$game->awayTeam)
+                            @if ((!$game->homeTeam || !$game->awayTeam) && null !== $prediction->homeTeam && null !== $prediction->awayTeam)
                                 <span class="inline-flex justify-center items-center">
                                     <img
                                         src="{{ asset('storage/' . $prediction->homeTeam->image) }}"
-                                        alt="{{ $prediction->winnerTeam->name }} flag"
+                                        alt="{{ $prediction->homeTeam->name }} flag"
                                         class="game-view__flag mr-2"
                                     >
                                     vs
                                     <img
                                         src="{{ asset('storage/' . $prediction->awayTeam->image) }}"
-                                        alt="{{ $prediction->winnerTeam->name }} flag"
+                                        alt="{{ $prediction->awayTeam->name }} flag"
                                         class="game-view__flag ml-2"
                                     >
                                 </span>
                             @endif
+                        @if ($game->hasDeadlinePassed())
                             <span class="inline-flex justify-center items-center w-17.5">
                                 <span
                                     @class([
@@ -111,20 +111,22 @@
                                     {{ $prediction->home_team_score }} : {{ $prediction->away_team_score }}
                                 </span>
                             </span>
-                            <div class="inline-flex justify-center items-center gap-2 w-17.5">
-                                <img
-                                    src="{{ asset('storage/' . $prediction->winnerTeam->image) }}"
-                                    alt="{{ $prediction->winnerTeam->name }} flag"
-                                    class="game-view__flag"
-                                >
-                                <div>
-                                    @if ($game->hasScore && $prediction->winnerTeam->id === $game->winnerTeam->id)
-                                        <x-heroicon-c-check-circle class="w-6 h-6 is-correct" />
-                                    @elseif ($game->hasScore)
-                                        <x-heroicon-c-x-circle class="w-6 h-6 is-incorrect" />
-                                    @endif
+                            @if (null !== $prediction->winnerTeam)
+                                <div class="inline-flex justify-center items-center gap-2 w-17.5">
+                                    <img
+                                        src="{{ asset('storage/' . $prediction->winnerTeam->image) }}"
+                                        alt="{{ $prediction->winnerTeam->name }}"
+                                        class="game-view__flag"
+                                    >
+                                    <div>
+                                        @if ($game->hasScore && $prediction->winnerTeam->id === $game->winnerTeam->id)
+                                            <x-heroicon-c-check-circle class="w-6 h-6 is-correct" />
+                                        @elseif ($game->hasScore)
+                                            <x-heroicon-c-x-circle class="w-6 h-6 is-incorrect" />
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         @else
                             <span class="w-9 ml-3 text-center">? : ?</span>
                         @endif
@@ -138,22 +140,24 @@
                 @foreach ($invalidPredictions as $prediction)
                     <div class="flex items-center py-1">
                         <x-user-name :tournament="$tournament" :user="$prediction->user" />
-                        <span class="inline-flex justify-center items-center">
-                            <img
-                                src="{{ asset('storage/' . $prediction->homeTeam->image) }}"
-                                alt="{{ $prediction->winnerTeam->name }} flag"
-                                class="game-view__flag mr-2"
-                            >
-                            vs
-                            <img
-                                src="{{ asset('storage/' . $prediction->awayTeam->image) }}"
-                                alt="{{ $prediction->winnerTeam->name }} flag"
-                                class="game-view__flag ml-2"
-                            >
-                            <span class="w-9 ml-3 text-center">
-                                {{ $prediction->home_team_score }} : {{ $prediction->away_team_score }}
+                        @if (null !== $prediction->homeTeam && null !== $prediction->awayTeam)
+                            <span class="inline-flex justify-center items-center">
+                                <img
+                                    src="{{ asset('storage/' . $prediction->homeTeam->image) }}"
+                                    alt="{{ $prediction->homeTeam->name }} flag"
+                                    class="game-view__flag mr-2"
+                                >
+                                vs
+                                <img
+                                    src="{{ asset('storage/' . $prediction->awayTeam->image) }}"
+                                    alt="{{ $prediction->awayTeam->name }} flag"
+                                    class="game-view__flag ml-2"
+                                >
+                                <span class="w-9 ml-3 text-center">
+                                    {{ $prediction->home_team_score }} : {{ $prediction->away_team_score }}
+                                </span>
                             </span>
-                        </span>
+                        @endif
                     </div>
                 @endforeach
             </section>
@@ -167,9 +171,26 @@
             @forelse ($predictions as $prediction)
                 <div class="flex items-center py-1">
                     <x-user-name :tournament="$tournament" :user="$prediction->user" />
+                    @if ($game->stage->isKnockout())
+                        @if (null !== $prediction->homeTeam && null !== $prediction->awayTeam)
+                            <span class="inline-flex justify-center items-center">
+                                <img
+                                    src="{{ asset('storage/' . $prediction->homeTeam->image) }}"
+                                    alt="{{ $prediction->homeTeam->name }} flag"
+                                    class="game-view__flag mr-2"
+                                >
+                                vs
+                                <img
+                                    src="{{ asset('storage/' . $prediction->awayTeam->image) }}"
+                                    alt="{{ $prediction->awayTeam->name }} flag"
+                                    class="game-view__flag ml-2"
+                                >
+                            </span>
+                        @endif
+                    @endif
                     @if ($game->hasDeadlinePassed())
                         <span
-                            class="inline-flex justify-center items-center w-17.5"
+                            class="inline-flex justify-center items-center w-17.5 ml-3"
                         >
                             <span
                                 @class([
