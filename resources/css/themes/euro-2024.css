@@ -199,7 +199,7 @@
         padding-block: .5rem;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 660px) {
         .games-list {
             background-color: transparent;
 

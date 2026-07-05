@@ -438,31 +438,21 @@
     
     @media (min-width: 660px) {
         .games-list {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 1rem;
-            justify-content: space-between;
-            
-            .game-box {
-                flex: 1 0 48%;
-            }
         }
     }
 
     @media (min-width: 980px) {
         .games-list {
-            .game-box {
-                flex: 1 0 30%;
-            }
+            grid-template-columns: repeat(3, minmax(0, 1fr));
         }
     }
 
     @media (min-width: 1400px) {
         .games-list {
-            .game-box {
-                flex: 1 0 21%;
-            }
+            grid-template-columns: repeat(4, minmax(0, 1fr));
         }
     }
 
