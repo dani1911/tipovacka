@@ -2,9 +2,10 @@
 
 namespace App\Observer;
 
+use App\Enums\Phase;
 use App\Models\Game;
-use App\Models\GameAdvancement;
 use App\Models\GamePrediction;
+use App\Models\StageTeam;
 use App\Traits\HandlesBracketAdvancement;
 
 class GameObserver
@@ -18,7 +19,7 @@ class GameObserver
     {
         $this->handlePoints($game);
         $this->advanceBracket($game);
-        // $this->handleAdvancements($game);
+        $this->createStageTeam($game);
     }
 
     /**
@@ -58,23 +59,35 @@ class GameObserver
     }
 
     /**
-     * Handles advancing team to next game in knockout stage.
+     * Creates a next stage team for the winning team of the game.
      */
-    private function handleAdvancements(Game $game): void
+    private function createStageTeam(Game $game)
     {
-        if (!$game->wasChanged('winner_team_id') || !$game->stage->isKnockout()) {
+        if (
+            $game->stage->phase !== Phase::KNOCKOUT ||
+            !$game->wasChanged('winner_team_id') ||
+            !$game->winner_team_id
+        ) {
             return;
         }
 
-        $game->advancements->each(function (GameAdvancement $advancement) use ($game) {
-            $teamId = match ($advancement->result) {
-                'winner' => $game->winner_team_id,
-                'loser'  => $game->getLoser(),
-            };
+        $destinationGame = $game->advancements
+            ->where('result', 'winner')
+            ->first()
+            ?->destinationGame;
 
-            $advancement->destinationGame->update([
-                $advancement->destination_position => $teamId,
-            ]);
-        });
+        if (!$destinationGame) {
+            return;
+        }
+
+        StageTeam::updateOrCreate(
+            [
+                'tournament_id' => $game->tournament_id,
+                'stage_id' => $destinationGame->stage_id,
+            ],
+            [
+                'team_id' => $game->winner_team_id,
+            ]
+        );
     }
 }

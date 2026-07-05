@@ -28,7 +28,6 @@ trait HandlesBracketAdvancement
 
             if ($entry instanceof Game) {
                 $advancement->destinationGame->update([$advancement->destination_position => $teamId]);
-                // dd($advancement);
             } else {
                 GamePrediction::where('user_id', $entry->user_id)
                     ->where('game_id', $advancement->destination_game_id)
