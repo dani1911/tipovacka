@@ -119,7 +119,7 @@
                                         class="game-view__flag"
                                     >
                                     <div>
-                                        @if ($game->hasScore && $prediction->winnerTeam->id === $game->winnerTeam->id)
+                                        @if ($game->hasScore && $prediction->winnerTeam?->id === $game->winnerTeam?->id)
                                             <x-heroicon-c-check-circle class="w-6 h-6 is-correct" />
                                         @elseif ($game->hasScore)
                                             <x-heroicon-c-x-circle class="w-6 h-6 is-incorrect" />
@@ -176,13 +176,13 @@
                             <span class="inline-flex justify-center items-center">
                                 <img
                                     src="{{ asset('storage/' . $prediction->homeTeam->image) }}"
-                                    alt="{{ $prediction->homeTeam->name }} flag"
+                                    alt="{{ $prediction->homeTeam->name }}"
                                     class="game-view__flag mr-2"
                                 >
                                 vs
                                 <img
                                     src="{{ asset('storage/' . $prediction->awayTeam->image) }}"
-                                    alt="{{ $prediction->awayTeam->name }} flag"
+                                    alt="{{ $prediction->awayTeam->name }}"
                                     class="game-view__flag ml-2"
                                 >
                             </span>
