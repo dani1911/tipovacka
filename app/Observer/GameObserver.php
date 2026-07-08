@@ -84,10 +84,8 @@ class GameObserver
             [
                 'tournament_id' => $game->tournament_id,
                 'stage_id' => $destinationGame->stage_id,
-            ],
-            [
                 'team_id' => $game->winner_team_id,
-            ]
+            ],
         );
     }
 }
