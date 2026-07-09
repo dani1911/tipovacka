@@ -141,7 +141,7 @@
                     <div class="flex items-center py-1">
                         <x-user-name :tournament="$tournament" :user="$prediction->user" />
                         @if (null !== $prediction->homeTeam && null !== $prediction->awayTeam)
-                            <span class="inline-flex justify-center items-center">
+                            <span class="inline-flex justify-center items-center mr-2">
                                 <img
                                     src="{{ asset('storage/' . $prediction->homeTeam->image) }}"
                                     alt="{{ $prediction->homeTeam->name }} flag"
@@ -157,6 +157,22 @@
                                     {{ $prediction->home_team_score }} : {{ $prediction->away_team_score }}
                                 </span>
                             </span>
+                            @if (null !== $prediction->winnerTeam)
+                                <div class="inline-flex justify-center items-center gap-2 w-17.5">
+                                    <img
+                                        src="{{ asset('storage/' . $prediction->winnerTeam->image) }}"
+                                        alt="{{ $prediction->winnerTeam->name }}"
+                                        class="game-view__flag"
+                                    >
+                                    <div>
+                                        @if ($game->hasScore && $prediction->winnerTeam?->id === $game->winnerTeam?->id)
+                                            <x-heroicon-c-check-circle class="w-6 h-6 is-correct" />
+                                        @elseif ($game->hasScore)
+                                            <x-heroicon-c-x-circle class="w-6 h-6 is-incorrect" />
+                                        @endif
+                                    </div>
+                                </div>
+                            @endif
                         @endif
                     </div>
                 @endforeach
