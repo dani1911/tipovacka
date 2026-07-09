@@ -33,7 +33,7 @@
                         <span>TBD</span>
                     @endif
                 </div>
-                @if ($gamePrediction->game->hasScore)
+                @if ($gamePrediction->game->hasScore && ($gamePrediction->home_team_id === $gamePrediction->game?->home_team_id && $gamePrediction->away_team_id === $gamePrediction->game?->away_team_id))
                 <div class="game-box__score">
                     <span class="badge">{{ $gamePrediction->game->home_team_score }}</span>
                 </div>
@@ -41,7 +41,7 @@
                 @auth
                 <div @class([ 'game-box__prediction' , 'correct'=> $gamePrediction->game->hasScore && $gamePrediction?->isCorrect,
                     'incorrect' => $gamePrediction->game->hasScore && !$gamePrediction?->isCorrect,
-                    ])>
+                ])>
                     {{ $gamePrediction?->home_team_score }}
                 </div>
                 @endauth
@@ -60,7 +60,7 @@
                         <span>TBD</span>
                     @endif
                 </div>
-                @if ($gamePrediction->game->hasScore)
+                @if ($gamePrediction->game->hasScore && ($gamePrediction->home_team_id === $gamePrediction->game?->home_team_id && $gamePrediction->away_team_id === $gamePrediction->game?->away_team_id))
                     <div class="game-box__score">
                         <span class="badge">{{ $gamePrediction->game->away_team_score }}</span>
                     </div>

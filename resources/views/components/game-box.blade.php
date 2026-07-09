@@ -35,11 +35,15 @@
                 </div>
                 @endif
                 @auth
-                <div @class([ 'game-box__prediction' , 'correct'=> $game->hasScore && $game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
-                    'incorrect' => $game->hasScore && !$game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
+                    @if ($game->home_team_id === $game->gamePredictions->firstWhere('user_id', $user?->id)?->home_team_id && $game->away_team_id === $game->gamePredictions->firstWhere('user_id', $user?->id)?->away_team_id)
+                    <div @class([
+                        'game-box__prediction',
+                        'correct'=> $game->hasScore && $game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
+                        'incorrect' => $game->hasScore && !$game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
                     ])>
-                    {{ $game->gamePredictions->firstWhere('user_id', $user?->id)?->home_team_score }}
-                </div>
+                        {{ $game->gamePredictions->firstWhere('user_id', $user?->id)?->home_team_score }}
+                    </div>
+                    @endif
                 @endauth
             </div>
             <div class="game-box__row">
@@ -67,11 +71,15 @@
                     </div>
                 @endif
                 @auth
-                    <div @class([ 'game-box__prediction' , 'correct'=> $game->hasScore && $game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
+                    @if ($game->home_team_id === $game->gamePredictions->firstWhere('user_id', $user?->id)?->home_team_id && $game->away_team_id === $game->gamePredictions->firstWhere('user_id', $user?->id)?->away_team_id)
+                    <div @class([
+                        'game-box__prediction',
+                        'correct'=> $game->hasScore && $game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
                         'incorrect' => $game->hasScore && !$game->gamePredictions->firstWhere('user_id', $user?->id)?->isCorrect,
-                        ])>
+                    ])>
                         {{ $game->gamePredictions->firstWhere('user_id', $user?->id)?->away_team_score }}
                     </div>
+                    @endif
                 @endauth
             </div>
         </a>
