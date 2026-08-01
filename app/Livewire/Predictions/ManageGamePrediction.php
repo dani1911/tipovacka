@@ -133,7 +133,13 @@ class ManageGamePrediction extends Component
             $this->winner_team_id = $this->resolveWinner();
 
             $this->gamePrediction->update(
-                $this->only(['home_team_score', 'away_team_score', 'winner_team_id'])
+                $this->only([
+                    'home_team_id',
+                    'away_team_id',
+                    'home_team_score',
+                    'away_team_score',
+                    'winner_team_id'
+                ])
             );
 
             FlashToast::success(__('Prediction updated successfully.'));

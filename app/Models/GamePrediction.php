@@ -80,6 +80,8 @@ class GamePrediction extends Model
     {
         return Attribute::make(
             get: fn() => $this->game->home_team_score !== null
+                && $this->game->home_team_id === $this->home_team_id
+                && $this->game->away_team_id === $this->away_team_id
                 && $this->game->home_team_score === $this->home_team_score
                 && $this->game->away_team_score === $this->away_team_score
         );
